@@ -2,15 +2,13 @@ import { Grid, Card, CardMedia, CardContent, Typography, CardActions, Button } f
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import avatar_default from "../../assets/avatar_default.jpg";
-
 export default function CardProduct() {
   return (
     <Grid>
       <Card sx={{ maxWidth: 300 }}>
         <CardMedia
           sx={{ height: 200 }}
-          image={avatar_default}
+          image="https://images.demandware.net/dw/image/v2/BBBV_PRD/on/demandware.static/-/Sites-master-catalog/default/dwd633af54/images/700000/704909.jpg?sw=2000"
           title="Product"
         />
         <CardContent>

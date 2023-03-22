@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 
 import {
   Box,
@@ -22,6 +22,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Link } from "react-router-dom";
+import { Props } from "../app/admin/types/types";
 
 const drawerWidth = 240;
 
@@ -95,18 +96,6 @@ const Drawer = styled(MuiDrawer, {
     "& .MuiDrawer-paper": closedMixin(theme),
   }),
 }));
-
-type NavParams = {
-  icon: ReactNode;
-  text: string;
-  navigatePath: string;
-}
-
-type Props = {
-  children: ReactNode;
-  nav: Array<NavParams>;
-  title: string;
-};
 
 export default function Layout({ children, nav, title }: Props) {
   const theme = useTheme();

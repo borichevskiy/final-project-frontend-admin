@@ -1,4 +1,3 @@
-import * as React from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -10,9 +9,12 @@ import TableRow from "@mui/material/TableRow";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { TextField } from "@mui/material";
-import FormDialogWindow from "./form-modal-layout.component";
-import { columnsCategories } from "./constants/constants";
-import { RowsCategories } from "./types/types";
+
+//============= App =============
+import * as React from "react";
+import { RowsCategories } from "../types/types";
+import FormDialogWindow from "../../../components/form-modal-layout.component";
+import { columnsCategories } from "../constants/constants";
 
 const rows: Array<RowsCategories> = [
   {

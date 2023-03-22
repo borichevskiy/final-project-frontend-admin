@@ -9,7 +9,6 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import FormDialogWindow from "./form-modal-layout.component";
 import {
   Box,
   FormControl,
@@ -18,8 +17,9 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import { columnsRole } from './constants/constants';
-import { RowsRoles } from "./types/types";
+import FormDialogWindow from "../../../components/form-modal-layout.component";
+import { columnsRole } from "../constants/constants";
+import { RowsRoles } from "../types/types";
 
 const rows: Array<RowsRoles> = [
   {

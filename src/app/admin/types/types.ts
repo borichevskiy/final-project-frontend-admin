@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export type Column = {
   id: string;
   label: string;
@@ -27,3 +29,18 @@ export type RowsCategories = {
   description: string;
 };
 
+export type NavParams = {
+  icon: ReactNode;
+  text: string;
+  navigatePath: string;
+};
+
+export type Props = {
+  children: ReactNode;
+  nav: Array<NavParams>;
+  title: string;
+};
+
+export type PropsType = {
+  handleSubmit: React.FormEventHandler<HTMLFormElement>;
+};
