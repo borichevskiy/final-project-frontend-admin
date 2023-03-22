@@ -1,8 +1,29 @@
-import { Grid, Card, CardMedia, CardContent, Typography, CardActions, Button } from "@mui/material";
+import React from "react";
+import {
+  Grid,
+  Card,
+  CardMedia,
+  CardContent,
+  Typography,
+  CardActions,
+  Button,
+} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
+// =========== App =======================
+import { useAppDispatch } from "../../hooks/redux";
+import { getProducts } from "./store/products.action";
+import { useProductSelector } from "./store/products.selectors";
+
 export default function CardProduct() {
+  const dispatch = useAppDispatch();
+  const { products } = useProductSelector();
+
+  React.useEffect(() => {
+    dispatch(getProducts());
+  }, [dispatch]);
+
   return (
     <Grid>
       <Card sx={{ maxWidth: 300 }}>
@@ -13,10 +34,16 @@ export default function CardProduct() {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            Product Name
+            {products.map((i) => (
+              <div key={i.name}>{i.name}</div>
+            ))}
+            {/* Product Name */}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Product description
+            {products.map((i) => (
+              <div key={i.name}>{i.description}</div>
+            ))}
+            {/* Product description */}
           </Typography>
         </CardContent>
         <CardActions>

@@ -15,17 +15,27 @@ import * as React from "react";
 import { RowsCategories } from "../types/types";
 import FormDialogWindow from "../../../components/form-modal-layout.component";
 import { columnsCategories } from "../constants/constants";
+import { useAppDispatch } from "../../hooks/redux";
+import { getCategories } from "./store/categories.actions";
+import { useCategorySelector } from "./store/categories.selectors";
 
 const rows: Array<RowsCategories> = [
   {
-  name: "Sofas",
-  description: "fghcjnghnghm",
+    name: "Sofas",
+    description: "fghcjnghnghm",
   },
 ];
 
 export default function ContentAdminCategoriesPage() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const dispatch = useAppDispatch();
+  const { categories } = useCategorySelector();
+
+  React.useEffect(() => {
+    dispatch(getCategories());
+  }, [dispatch]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -63,7 +73,7 @@ export default function ContentAdminCategoriesPage() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
+              {categories
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row: any) => {
                   return (
@@ -97,6 +107,9 @@ export default function ContentAdminCategoriesPage() {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
+        {/* {categories.map((i) => (
+          <div>{i.name}{i.description}</div>
+        ))} */}
       </Paper>
     </>
   );

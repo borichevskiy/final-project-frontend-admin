@@ -145,6 +145,7 @@ export default function Layout({ children, nav, title }: Props) {
         <List>
           {nav.map((item) => (
             <Link
+              key={item.navigatePath}
               to={item.navigatePath}
               style={{ textDecoration: "none", color: "black" }}
             >

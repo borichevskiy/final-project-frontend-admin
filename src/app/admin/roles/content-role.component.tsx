@@ -20,6 +20,9 @@ import {
 import FormDialogWindow from "../../../components/form-modal-layout.component";
 import { columnsRole } from "../constants/constants";
 import { RowsRoles } from "../types/types";
+import { useAppDispatch } from "../../hooks/redux";
+import { getRole } from "./store/roles.actions";
+import { useRoleSelector } from "./store/roles.selectors";
 
 const rows: Array<RowsRoles> = [
   {
@@ -49,6 +52,13 @@ export default function ContentAdminRolePage() {
   const handleChange = (event: any) => {
     setSelect(event.target.value as string);
   };
+
+  const dispatch = useAppDispatch();
+  const { roles } = useRoleSelector();
+
+  React.useEffect(() => {
+    dispatch(getRole());
+  }, [dispatch]);
 
   return (
     <>
@@ -82,7 +92,7 @@ export default function ContentAdminRolePage() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
+              {roles
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row: any) => {
                   return (
@@ -116,6 +126,9 @@ export default function ContentAdminRolePage() {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
+        {/* {roles.map((i) => (
+          <div key={i.name}>{i.name}</div>
+        ))} */}
       </Paper>
     </>
   );
