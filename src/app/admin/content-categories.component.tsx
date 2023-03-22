@@ -11,33 +11,14 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { TextField } from "@mui/material";
 import FormDialogWindow from "./form-modal-layout.component";
+import { columnsCategories } from "./constants/constants";
+import { RowsCategories } from "./types/types";
 
-export interface Column {
-  id: "name" | "description";
-  label: string;
-  minWidth?: number;
-  align?: "right";
-  format?: (value: number) => string;
-}
-
-export const columns: readonly Column[] = [
-  { id: "name", label: "Name", minWidth: 150 },
-  { id: "description", label: "Description", minWidth: 100 },
-];
-
-export interface Data {
-  name: string;
-  description: string;
-}
-
-function createData(name: string, description: string): Data {
-  return { name, description };
-}
-
-const rows = [
-  createData("Sofas", "fghcjnghnghm"),
-  createData("Tables", "dfhbfgncghch"),
-  createData("Chairs", "fghnfnghncg"),
+const rows: Array<RowsCategories> = [
+  {
+  name: "Sofas",
+  description: "fghcjnghnghm",
+  },
 ];
 
 export default function ContentAdminCategoriesPage() {
@@ -67,7 +48,7 @@ export default function ContentAdminCategoriesPage() {
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
-                {columns.map((column) => (
+                {columnsCategories.map((column: any) => (
                   <TableCell
                     key={column.id}
                     align={column.align}
@@ -82,10 +63,10 @@ export default function ContentAdminCategoriesPage() {
             <TableBody>
               {rows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
+                .map((row: any) => {
                   return (
                     <TableRow hover role="checkbox" tabIndex={-1}>
-                      {columns.map((column) => {
+                      {columnsCategories.map((column: any) => {
                         const value = row[column.id];
                         return (
                           <TableCell key={column.id} align={column.align}>

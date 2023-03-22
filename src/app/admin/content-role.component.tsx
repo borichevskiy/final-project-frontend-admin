@@ -18,43 +18,16 @@ import {
   Select,
   TextField,
 } from "@mui/material";
+import { columnsRole } from './constants/constants';
+import { RowsRoles } from "./types/types";
 
-export interface Column {
-  id: "name" | "role_name" | "role_type" | "permission";
-  label: string;
-  minWidth?: number;
-  align?: "right";
-  format?: (value: number) => string;
-}
-
-export const columns: readonly Column[] = [
-  { id: "name", label: "Name", minWidth: 150 },
-  { id: "role_name", label: "Role Name", minWidth: 150 },
-  { id: "role_type", label: "Role Type", minWidth: 150 },
-  { id: "permission", label: "Permission", minWidth: 150 },
-];
-
-export interface Data {
-  name: string;
-  role_name: string;
-  role_type: string;
-  permission: string;
-}
-
-function createData(
-  name: string,
-  role_name: string,
-  role_type: string,
-  permission: string
-): Data {
-  return { name, role_name, role_type, permission };
-}
-
-const rows = [
-  createData("Irina", "Manager", "Admin", "permission"),
-  createData("Regina", "Manager 2", "Admin", "permission"),
-  createData("Alex", "Manager 3", "Admin", "permission"),
-  createData("Dmitrij", "Client", "User", "permission"),
+const rows: Array<RowsRoles> = [
+  {
+    name: "Irina",
+    role_name: "Manager",
+    role_type: "Admin",
+    permission: "permission",
+  },
 ];
 
 export default function ContentAdminRolePage() {
@@ -96,7 +69,7 @@ export default function ContentAdminRolePage() {
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
-                {columns.map((column) => (
+                {columnsRole.map((column: any) => (
                   <TableCell
                     key={column.id}
                     align={column.align}
@@ -111,10 +84,10 @@ export default function ContentAdminRolePage() {
             <TableBody>
               {rows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
+                .map((row: any) => {
                   return (
                     <TableRow hover role="checkbox" tabIndex={-1}>
-                      {columns.map((column) => {
+                      {columnsRole.map((column: any) => {
                         const value = row[column.id];
                         return (
                           <TableCell key={column.id} align={column.align}>
