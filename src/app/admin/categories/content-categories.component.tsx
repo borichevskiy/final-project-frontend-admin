@@ -8,34 +8,69 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { TextField } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 //============= App =============
 import * as React from "react";
+import { useEffect } from "react";
 import { RowsCategories } from "../types/types";
-import FormDialogWindow from "../../../components/form-modal-layout.component";
 import { columnsCategories } from "../constants/constants";
 import { useAppDispatch } from "../../hooks/redux";
-import { getCategories } from "./store/categories.actions";
+import {
+  createCategory,
+  getCategories,
+  getCategoryById,
+  updateCategory,
+} from "./store/categories.actions";
 import { useCategorySelector } from "./store/categories.selectors";
 
 const rows: Array<RowsCategories> = [
   {
-    name: "Sofas",
-    description: "fghcjnghnghm",
+    name: "Category name",
+    description: "Category description",
   },
 ];
 
 export default function ContentAdminCategoriesPage() {
+  const dispatch = useAppDispatch();
+  const [open, setOpen] = React.useState(false);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-  const dispatch = useAppDispatch();
   const { categories } = useCategorySelector();
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(getCategories());
-  }, [dispatch]);
+  }, []);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const name: string = String(data.get("category_name"));
+    const description: string = String(data.get("category_description"));
+    const dto: any = {
+      name: name,
+      description: description,
+    };
+    console.log(dto);
+    dispatch(createCategory({ dto }));
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -50,11 +85,50 @@ export default function ContentAdminCategoriesPage() {
 
   return (
     <>
-      <FormDialogWindow buttonTitle="ADD CATEGORY" formTitle="NEW CATEGORY">
-        <TextField margin="normal" label="Category name" fullWidth />
-        <TextField margin="normal" label="Category description" fullWidth />
-      </FormDialogWindow>
-
+      <div id="add category">
+        <Button onClick={handleClickOpen}>
+          <AddIcon
+            sx={{
+              marginRight: 2,
+            }}
+          />
+          <Typography variant="body2" color="text.primary">
+            ADD CATEGORY
+          </Typography>
+        </Button>
+        <Dialog open={open} onClose={handleClose}>
+          <DialogTitle>NEW CATEGORY</DialogTitle>
+          <DialogContent>
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 1 }}
+            >
+              <TextField
+                required
+                id="category_name"
+                name="category_name"
+                autoComplete="category_name"
+                margin="normal"
+                label="Category name"
+                fullWidth
+              />
+              <TextField
+                required
+                id="category_description"
+                name="category_description"
+                autoComplete="category_description"
+                margin="normal"
+                label="Category description"
+                fullWidth
+              />
+              <Button type="submit">Create</Button>
+              <Button onClick={handleClose}>Cancel</Button>
+            </Box>
+          </DialogContent>
+        </Dialog>
+      </div>
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
         <TableContainer sx={{ maxHeight: 550 }}>
           <Table stickyHeader aria-label="sticky table">
@@ -89,8 +163,12 @@ export default function ContentAdminCategoriesPage() {
                         );
                       })}
                       <TableCell align={"right"}>
-                        <EditIcon sx={{ marginRight: 2 }} />
-                        <DeleteIcon />
+                        <Button>
+                          <EditIcon sx={{ marginRight: 2, color: "black" }} />
+                        </Button>
+                        <Button id="delete_button">
+                          <DeleteIcon sx={{ color: "black" }} />
+                        </Button>
                       </TableCell>
                     </TableRow>
                   );
@@ -107,9 +185,6 @@ export default function ContentAdminCategoriesPage() {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-        {/* {categories.map((i) => (
-          <div>{i.name}{i.description}</div>
-        ))} */}
       </Paper>
     </>
   );

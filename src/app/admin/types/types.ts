@@ -1,5 +1,11 @@
 import { ReactNode } from "react";
 
+export type PropsForm = {
+  children: ReactNode;
+  buttonTitle: string;
+  formTitle: string;
+};
+
 export type Column = {
   id: string;
   label: string;
