@@ -9,21 +9,34 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { TextField } from "@mui/material";
-import FormDialogWindow from "./form-modal-layout.component";
-import { columnsCategories } from "./constants/constants";
-import { RowsCategories } from "./types/types";
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
+import FormDialogWindow from "../../../components/form-modal-layout.component";
+import { columnsRole } from "../constants/constants";
+import { RowsRoles } from "../types/types";
+import { useAppDispatch } from "../../hooks/redux";
+import { getRole } from "./store/roles.actions";
+import { useRoleSelector } from "./store/roles.selectors";
 
-const rows: Array<RowsCategories> = [
+const rows: Array<RowsRoles> = [
   {
-  name: "Sofas",
-  description: "fghcjnghnghm",
+    name: "Irina",
+    role_name: "Manager",
+    role_type: "Admin",
+    permission: "permission",
   },
 ];
 
-export default function ContentAdminCategoriesPage() {
+export default function ContentAdminRolePage() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [select, setSelect] = React.useState("");
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -36,11 +49,29 @@ export default function ContentAdminCategoriesPage() {
     setPage(0);
   };
 
+  const handleChange = (event: any) => {
+    setSelect(event.target.value as string);
+  };
+
+  const dispatch = useAppDispatch();
+  const { roles } = useRoleSelector();
+
+  React.useEffect(() => {
+    dispatch(getRole());
+  }, [dispatch]);
+
   return (
     <>
-      <FormDialogWindow buttonTitle="ADD CATEGORY" formTitle="NEW CATEGORY">
-        <TextField margin="normal" label="Category name" fullWidth />
-        <TextField margin="normal" label="Category description" fullWidth />
+      <FormDialogWindow buttonTitle="CREATE ROLE" formTitle="NEW ROLE">
+        <TextField margin="normal" label="Role name" fullWidth />
+        <Box sx={{ minWidth: 120 }}>
+          <FormControl fullWidth>
+            <InputLabel>Role Type</InputLabel>
+            <Select value={select} onChange={handleChange}>
+              <MenuItem value={10}>Role name</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
       </FormDialogWindow>
 
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -48,7 +79,7 @@ export default function ContentAdminCategoriesPage() {
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
-                {columnsCategories.map((column: any) => (
+                {columnsRole.map((column: any) => (
                   <TableCell
                     key={column.id}
                     align={column.align}
@@ -61,12 +92,12 @@ export default function ContentAdminCategoriesPage() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
+              {roles
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row: any) => {
                   return (
                     <TableRow hover role="checkbox" tabIndex={-1}>
-                      {columnsCategories.map((column: any) => {
+                      {columnsRole.map((column: any) => {
                         const value = row[column.id];
                         return (
                           <TableCell key={column.id} align={column.align}>
@@ -95,6 +126,9 @@ export default function ContentAdminCategoriesPage() {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
+        {/* {roles.map((i) => (
+          <div key={i.name}>{i.name}</div>
+        ))} */}
       </Paper>
     </>
   );

@@ -1,6 +1,6 @@
-import Layout from "../../components/layout.component";
+import Layout from "../../../components/layout.component";
 
-import { nav } from "./constants/constants";
+import { nav } from "../constants/constants";
 import ContentAdminUsersPage from "./content-users.component";
 
 export default function AdminUsersPage () {
@@ -9,4 +9,4 @@ export default function AdminUsersPage () {
       <ContentAdminUsersPage/>
     </Layout>
   );
-}
+} 

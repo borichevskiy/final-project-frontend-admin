@@ -8,7 +8,7 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import FormDialogWindow from "./form-modal-layout.component";
+import FormDialogWindow from "../../../components/form-modal-layout.component";
 import CardProduct from "./card-product.component";
 
 export default function ContentAdminProductsPage() {

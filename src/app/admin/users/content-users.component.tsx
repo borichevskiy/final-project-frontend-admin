@@ -4,8 +4,8 @@ import { Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody
 
 //============== App ===================
 import React from "react";
-import { RowsUsers } from "./types/types";
-import { columnsUser } from "./constants/constants";
+import { columnsUser } from "../constants/constants";
+import { RowsUsers } from "../types/types";
 
 export const rows: Array<RowsUsers> = [
   {

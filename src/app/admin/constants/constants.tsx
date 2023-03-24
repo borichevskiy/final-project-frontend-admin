@@ -2,9 +2,10 @@ import PeopleIcon from "@mui/icons-material/People";
 import SettingsAccessibilityIcon from "@mui/icons-material/SettingsAccessibility";
 import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
 import CategoryIcon from "@mui/icons-material/Category";
-import { Column } from "../types/types";
+import SettingsIcon from "@mui/icons-material/Settings";
+import { Column, NavParams } from "../types/types";
 
-export const nav = [
+export const nav: NavParams[] = [
   {
     icon: <PeopleIcon />,
     text: "Users",
@@ -24,6 +25,11 @@ export const nav = [
     icon: <CategoryIcon />,
     text: "Categories",
     navigatePath: "/admin/categories",
+  },
+  {
+    icon: <SettingsIcon />,
+    text: "Settings",
+    navigatePath: "/admin/settings",
   },
 ];
 

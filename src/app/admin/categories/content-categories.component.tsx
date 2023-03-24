@@ -1,4 +1,3 @@
-import * as React from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -9,31 +8,34 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import FormDialogWindow from "./form-modal-layout.component";
-import {
-  Box,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
-import { columnsRole } from './constants/constants';
-import { RowsRoles } from "./types/types";
+import { TextField } from "@mui/material";
 
-const rows: Array<RowsRoles> = [
+//============= App =============
+import * as React from "react";
+import { RowsCategories } from "../types/types";
+import FormDialogWindow from "../../../components/form-modal-layout.component";
+import { columnsCategories } from "../constants/constants";
+import { useAppDispatch } from "../../hooks/redux";
+import { getCategories } from "./store/categories.actions";
+import { useCategorySelector } from "./store/categories.selectors";
+
+const rows: Array<RowsCategories> = [
   {
-    name: "Irina",
-    role_name: "Manager",
-    role_type: "Admin",
-    permission: "permission",
+    name: "Sofas",
+    description: "fghcjnghnghm",
   },
 ];
 
-export default function ContentAdminRolePage() {
+export default function ContentAdminCategoriesPage() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [select, setSelect] = React.useState("");
+
+  const dispatch = useAppDispatch();
+  const { categories } = useCategorySelector();
+
+  React.useEffect(() => {
+    dispatch(getCategories());
+  }, [dispatch]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -46,22 +48,11 @@ export default function ContentAdminRolePage() {
     setPage(0);
   };
 
-  const handleChange = (event: any) => {
-    setSelect(event.target.value as string);
-  };
-
   return (
     <>
-      <FormDialogWindow buttonTitle="CREATE ROLE" formTitle="NEW ROLE">
-        <TextField margin="normal" label="Role name" fullWidth />
-        <Box sx={{ minWidth: 120 }}>
-          <FormControl fullWidth>
-            <InputLabel>Role Type</InputLabel>
-            <Select value={select} onChange={handleChange}>
-              <MenuItem value={10}>Role name</MenuItem>
-            </Select>
-          </FormControl>
-        </Box>
+      <FormDialogWindow buttonTitle="ADD CATEGORY" formTitle="NEW CATEGORY">
+        <TextField margin="normal" label="Category name" fullWidth />
+        <TextField margin="normal" label="Category description" fullWidth />
       </FormDialogWindow>
 
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -69,7 +60,7 @@ export default function ContentAdminRolePage() {
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
-                {columnsRole.map((column: any) => (
+                {columnsCategories.map((column: any) => (
                   <TableCell
                     key={column.id}
                     align={column.align}
@@ -82,12 +73,12 @@ export default function ContentAdminRolePage() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
+              {categories
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row: any) => {
                   return (
                     <TableRow hover role="checkbox" tabIndex={-1}>
-                      {columnsRole.map((column: any) => {
+                      {columnsCategories.map((column: any) => {
                         const value = row[column.id];
                         return (
                           <TableCell key={column.id} align={column.align}>
@@ -116,6 +107,9 @@ export default function ContentAdminRolePage() {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
+        {/* {categories.map((i) => (
+          <div>{i.name}{i.description}</div>
+        ))} */}
       </Paper>
     </>
   );
