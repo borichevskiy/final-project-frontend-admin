@@ -126,9 +126,6 @@ export default function ContentAdminRolePage() {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-        {/* {roles.map((i) => (
-          <div key={i.name}>{i.name}</div>
-        ))} */}
       </Paper>
     </>
   );
