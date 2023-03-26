@@ -21,8 +21,11 @@ import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import LogoutIcon from '@mui/icons-material/Logout';
+
 import { Link } from "react-router-dom";
-import { Props } from "../app/admin/types/types";
+import { Props } from "../app/types/types";
+import Grid from "@mui/material/Grid";
 
 const drawerWidth = 240;
 
@@ -129,6 +132,11 @@ export default function Layout({ children, nav, title }: Props) {
           <Typography variant="h6" noWrap component="div">
             {title}
           </Typography>
+          <Grid item sx={{marginLeft: 'auto'}}>
+            <Link to="/app/auth/log-out" style={{color: 'white'}}>
+              <LogoutIcon />
+            </Link>
+          </Grid>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>

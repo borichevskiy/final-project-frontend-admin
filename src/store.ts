@@ -1,12 +1,14 @@
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
-import categoryReducer from './app/admin/categories/store/categories.slice';
-import productsReducer from "./app/admin/products/store/products.slice";
-import roleReducer from "./app/admin/roles/store/roles.slice";
+import categoryReducer from "./app/categories/store/categories.slice";
+import productsReducer from "./app/products/store/products.slice";
+import roleReducer from "./app/roles/store/roles.slice";
+import authReducer from './app/auth/store/auth.slice';
 
 const rootReducer = combineReducers({
   categoryReducer,
   productsReducer,
   roleReducer,
+  authReducer
 });
 
 const setupStore = () => {

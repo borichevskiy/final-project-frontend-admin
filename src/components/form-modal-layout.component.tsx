@@ -1,15 +1,16 @@
-import * as React from "react";
-import { PropsForm } from "../app/admin/types/types";
+import { useState } from "react";
 
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import AddIcon from "@mui/icons-material/Add";
-import { Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 
-export default function FormDialogWindow({ children, buttonTitle, formTitle }: PropsForm) {
-  const [open, setOpen] = React.useState(false);
+import { PropsForm } from "../app/types/types";
+
+export default function FormDialogWindow({ children, buttonTitle, formTitle, handleSubmit }: PropsForm) {
+  const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -20,7 +21,7 @@ export default function FormDialogWindow({ children, buttonTitle, formTitle }: P
   };
 
   return (
-    <div>
+    <Grid container sx={{marginBottom: 4}}>
       <Button onClick={handleClickOpen}>
         <AddIcon
           sx={{
@@ -34,8 +35,21 @@ export default function FormDialogWindow({ children, buttonTitle, formTitle }: P
 
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>{formTitle}</DialogTitle>
-        <DialogContent>{children}</DialogContent>
+        <DialogContent>
+          <Box
+            component="form"
+            noValidate
+            onSubmit={handleSubmit}
+            sx={{ mt: 1 }}
+          >
+            {children}
+            <Grid container sx={{marginTop: 2}}>
+              <Button type="submit">Create</Button>
+              <Button onClick={handleClose}>Cancel</Button>
+            </Grid>
+          </Box>
+        </DialogContent>
       </Dialog>
-    </div>
+    </Grid>
   );
 }
