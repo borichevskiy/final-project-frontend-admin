@@ -50,8 +50,6 @@ export default function AppTable ({columns, rows} : AppTablesProps) {
                     tabIndex={-1}
                   >
                     {columns.map((column) => {
-                      console.log(column)
-                      console.log(row)
                       const value : string = row[column.id];
                       return (
                         <TableCell key={column.id}>
