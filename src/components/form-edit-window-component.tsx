@@ -4,12 +4,12 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Add";
 import { Box, Grid, Typography } from "@mui/material";
 
 import { PropsForm } from "../app/types/types";
 
-export default function FormDialogWindow({ children, buttonTitle, formTitle, handleSubmit }: PropsForm) {
+export default function FormEditWindow({ children, buttonTitle, formTitle, handleSubmit}: PropsForm) {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -23,7 +23,7 @@ export default function FormDialogWindow({ children, buttonTitle, formTitle, han
   return (
     <Grid container sx={{marginBottom: 4}}>
       <Button onClick={handleClickOpen}>
-        <AddIcon
+        <EditIcon
           sx={{
             marginRight: 2,
           }}
@@ -44,7 +44,7 @@ export default function FormDialogWindow({ children, buttonTitle, formTitle, han
           >
             {children}
             <Grid container sx={{marginTop: 2}}>
-              <Button type="submit" onClick={handleClose}>Create</Button>
+              <Button type="submit" onClick={handleClose}>Edit</Button>
               <Button onClick={handleClose}>Cancel</Button>
             </Grid>
           </Box>

@@ -27,7 +27,7 @@ const AdminPage = React.lazy(() => import("app/admin"));
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path={"/app/admin/*"} element={<PrivateRoute element={AdminPage} />} />
+      <Route path={"/app/admin/*"} element={<PublicRoute element={AdminPage} />} />
       <Route path={"/app/*"} element={<PublicRoute element={AuthPage} />} />
       
       {/* DEFAULT */}

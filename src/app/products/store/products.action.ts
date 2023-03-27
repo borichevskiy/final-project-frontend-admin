@@ -47,7 +47,7 @@ export const createProduct = createAsyncThunk<
 
 export const updateProduct = createAsyncThunk<
   ProductsDto,
-  { productId: number; dto: ProductsDto }
+  { productId: string; dto: ProductsDto }
 >("products/update", async ({ productId, dto }, thinkAPI) => {
   try {
     const response = await repository.put(`/products/${productId}`, dto, headers);
@@ -59,7 +59,7 @@ export const updateProduct = createAsyncThunk<
 
 export const deleteProduct = createAsyncThunk<
   ProductsDto,
-  { productId: number }
+  { productId: string }
 >("products/delete", async ({ productId }, thunkAPI) => {
   try {
     const response = await repository.delete(`/products/${productId}`, headers);
