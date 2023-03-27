@@ -63,12 +63,12 @@ export default function AppTable (
                       );
                     })}
 
-                    <TableCell align={"justify"}>
+                    <TableCell align={"right"}>
                       <IconButton 
                         onClick={() => handleOpenFormEdit(row.id)} 
                         sx={{color: 'black', padding: 0}}
                       >
-                        <EditIcon sx={{ marginRight: 2 }} />
+                        <EditIcon />
                       </IconButton>                     
                       {
                         isUserTable 

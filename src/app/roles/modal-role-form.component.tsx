@@ -113,18 +113,11 @@ export default function ModalRoleForm({ id, isOpen, handleClose }: ModalFormRole
       })
   }
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    if (id)
-      handleSubmitUpdate(event);
-    else
-      handleSubmitCreate(event);
-  }
-
   return (
     <ModalFormLayout
       formTitle={formTitle}
       buttonTitle={buttonTitle}
-      handleSubmit={handleSubmit}
+      handleSubmit={id ? handleSubmitUpdate : handleSubmitCreate}
       isOpen={isOpen}
       handleClose={handleClose}
     >
