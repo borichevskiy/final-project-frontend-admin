@@ -40,6 +40,12 @@ export default function ModalRoleForm({ id, isOpen, handleClose }: ModalFormRole
       setFormTitle('UPDATE ROLE');
       setButtonTitle('UPDATE');
       dispatch(getRoleById({ id: roleId }));
+    } else {
+        setFormTitle('CREATE ROLE');
+        setButtonTitle('CREATE');
+        setRoleName('');
+        setRoleType(UserRoleTypes.Client);
+        setPermissions([]);
     }
   }, [id]);
 
@@ -115,74 +121,72 @@ export default function ModalRoleForm({ id, isOpen, handleClose }: ModalFormRole
   }
 
   return (
-    <>
-      <ModalFormLayout
-        formTitle={formTitle}
-        buttonTitle={buttonTitle}
-        handleSubmit={handleSubmit}
-        isOpen={isOpen}
-        handleClose={handleClose}
-      >
-        <TextField
-          margin="normal"
-          label="Role name"
-          name="roleName"
-          fullWidth
-          value={roleName}
-          onChange={(event) => setRoleName(event.target.value)}
-        />
-        <Box sx={{ marginTop: 2 }}>
-          <FormControl fullWidth>
-            <InputLabel id="select-role-type-label">Role type</InputLabel>
-            <Select
-              labelId="select-role-type-label"
-              id="select-role-type"
-              value={selectRoleType}
-              label="Role type"
-              onChange={handleSelectRoleType}
-            >
-              {Object.values(UserRoleTypes).map((roleType) => (
-                <MenuItem
-                  key={roleType}
-                  value={roleType}
-                >
-                  {roleType}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Box>
-        <Box sx={{ marginTop: 2 }}>
-          <FormControl sx={{ width: '100%' }}>
-            <InputLabel id="select-permissions-label">Permissions</InputLabel>
-            <Select
-              labelId="select-permissions-label"
-              id="select-permissions"
-              multiple
-              value={permissions}
-              onChange={handleSelectPermissions}
-              input={<OutlinedInput id="select-multiple-permissions" label="Permissions" />}
-              renderValue={(selected) => (
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                  {selected.map((value) => (
-                    <Chip key={value} label={value} />
-                  ))}
-                </Box>
-              )}
-              MenuProps={MenuProps}
-            >
-              {Object.values(UserPermissions).map((permission, index) => (
-                <MenuItem
-                  key={permission}
-                  value={permission}
-                >
-                  {permission}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Box>
-      </ModalFormLayout>
-    </>
+    <ModalFormLayout
+      formTitle={formTitle}
+      buttonTitle={buttonTitle}
+      handleSubmit={handleSubmit}
+      isOpen={isOpen}
+      handleClose={handleClose}
+    >
+      <TextField
+        margin="normal"
+        label="Role name"
+        name="roleName"
+        fullWidth
+        value={roleName}
+        onChange={(event) => setRoleName(event.target.value)}
+      />
+      <Box sx={{ marginTop: 2 }}>
+        <FormControl fullWidth>
+          <InputLabel id="select-role-type-label">Role type</InputLabel>
+          <Select
+            labelId="select-role-type-label"
+            id="select-role-type"
+            value={selectRoleType}
+            label="Role type"
+            onChange={handleSelectRoleType}
+          >
+            {Object.values(UserRoleTypes).map((roleType) => (
+              <MenuItem
+                key={roleType}
+                value={roleType}
+              >
+                {roleType}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
+      <Box sx={{ marginTop: 2 }}>
+        <FormControl sx={{ width: '100%' }}>
+          <InputLabel id="select-permissions-label">Permissions</InputLabel>
+          <Select
+            labelId="select-permissions-label"
+            id="select-permissions"
+            multiple
+            value={permissions}
+            onChange={handleSelectPermissions}
+            input={<OutlinedInput id="select-multiple-permissions" label="Permissions" />}
+            renderValue={(selected) => (
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                {selected.map((value) => (
+                  <Chip key={value} label={value} />
+                ))}
+              </Box>
+            )}
+            MenuProps={MenuProps}
+          >
+            {Object.values(UserPermissions).map((permission, index) => (
+              <MenuItem
+                key={permission}
+                value={permission}
+              >
+                {permission}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
+    </ModalFormLayout>
   );
 }

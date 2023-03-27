@@ -1,14 +1,9 @@
-import FormDialogWindow from "../../components/form-modal-layout.component";
 import { columnsRole } from "../constants/constants";
 import { useAppDispatch } from "../../hooks/redux";
-import { addRole, deleteRole, getRole } from "./store/roles.actions";
+import { deleteRole, getRole } from "./store/roles.actions";
 import { useRoleSelector } from "./store/roles.selectors";
 import AppTable from "components/app-table.component";
 import { useEffect, useState } from "react";
-import { Box, Button, Chip, FormControl, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, TextField, Theme, useTheme } from "@mui/material";
-import { CreateRoleDto } from "./types/create-role-dto.type";
-import { UserRoleTypes } from "./enums/user-role-types.enum";
-import { UserPermissions } from "./enums/user-permissions.enum";
 import { useNavigate } from "react-router-dom";
 import OpenModalFormButton from "components/modal-open-form-button.component";
 import ModalRoleForm from "./modal-role-form.component";
@@ -33,6 +28,7 @@ export default function ContentAdminRolePage() {
   };
 
   const handleCloseForm = () => {
+    setId(undefined);
     setOpenForm(false);
   };
 
@@ -42,6 +38,7 @@ export default function ContentAdminRolePage() {
   };
 
   const handleCloseConfirmWindow = () => {
+    setId(undefined);
     setOpenConfirmWindow(false);
   };
 
@@ -59,6 +56,13 @@ export default function ContentAdminRolePage() {
   return (
     <>
       <OpenModalFormButton handleClickOpen={handleOpenForm} buttonTitle="CREATE ROLE"/>
+      <AppTable
+        rows={roles}
+        columns={columnsRole}
+        isUserTable={false}
+        handleOpenFormEdit={handleOpenForm}
+        handleOpenConfirmDelete={handleOpenConfirmWindow}
+      />
       <ModalRoleForm 
         id={id}   
         isOpen={openForm} 
@@ -68,13 +72,6 @@ export default function ContentAdminRolePage() {
         handleConfirm={handleConfirm} 
         isOpen={openConfirmWindow} 
         handleClose={handleCloseConfirmWindow}
-      />
-      <AppTable
-        rows={roles}
-        columns={columnsRole}
-        isUserTable={false}
-        handleOpenFormEdit={handleOpenForm}
-        handleOpenConfirmDelete={handleOpenConfirmWindow}
       />
     </>
   );

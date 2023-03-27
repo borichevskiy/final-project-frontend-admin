@@ -14,6 +14,7 @@ import CardProduct from "./card-product.component";
 import { useState } from "react";
 import ModalProductForm from "./modal-product-form.component";
 import ConfirmDeletionWindow from "components/modal-form-confirm-delete.component";
+import OpenModalFormButton from "components/modal-open-form-button.component";
 
 export default function ContentAdminProductsPage() {
   const [selectValue, setSelectValue] = useState("");
@@ -28,6 +29,7 @@ export default function ContentAdminProductsPage() {
 
   return (
     <>
+      {/* <OpenModalFormButton handleClickOpen={handleOpenForm} buttonTitle="CREATE PRODUCT"/> */}
       {/* <ModalProductForm 
         id={id}   
         isOpen={openForm} 
