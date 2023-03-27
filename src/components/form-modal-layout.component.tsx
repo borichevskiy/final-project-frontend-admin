@@ -7,33 +7,14 @@ import DialogTitle from "@mui/material/DialogTitle";
 import AddIcon from "@mui/icons-material/Add";
 import { Box, Grid, Typography } from "@mui/material";
 
-import { PropsForm } from "../app/types/types";
+import { ModalFormLayoutProps } from "../app/types/props.type";
 
-export default function FormDialogWindow({ children, buttonTitle, formTitle, handleSubmit }: PropsForm) {
-  const [open, setOpen] = useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+export default function ModalFormLayout(
+  { children, formTitle, buttonTitle, handleSubmit, isOpen, handleClose }: ModalFormLayoutProps) {
 
   return (
-    <Grid container sx={{marginBottom: 4}}>
-      <Button onClick={handleClickOpen}>
-        <AddIcon
-          sx={{
-            marginRight: 2,
-          }}
-        />
-        <Typography variant="body2" color="text.primary">
-          {buttonTitle}
-        </Typography>
-      </Button>
-
-      <Dialog open={open} onClose={handleClose}>
+    <Grid container sx={{ marginBottom: 4 }}>
+      <Dialog open={isOpen} onClose={handleClose}>
         <DialogTitle>{formTitle}</DialogTitle>
         <DialogContent>
           <Box
@@ -43,8 +24,8 @@ export default function FormDialogWindow({ children, buttonTitle, formTitle, han
             sx={{ mt: 1 }}
           >
             {children}
-            <Grid container sx={{marginTop: 2}}>
-              <Button type="submit">Create</Button>
+            <Grid container sx={{ marginTop: 2 }}>
+              <Button type="submit">{buttonTitle}</Button>
               <Button onClick={handleClose}>Cancel</Button>
             </Grid>
           </Box>
