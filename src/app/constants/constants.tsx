@@ -3,8 +3,7 @@ import SettingsAccessibilityIcon from "@mui/icons-material/SettingsAccessibility
 import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
 import CategoryIcon from "@mui/icons-material/Category";
 import SettingsIcon from "@mui/icons-material/Settings";
-import { NavParams } from "../types/types";
-import { Column } from "app/types/table-column.type";
+import { Column, NavParams } from "../types/props.type";
 
 export const nav: NavParams[] = [
   {
@@ -45,10 +44,9 @@ export const columnsUser: Array<Column> = [
 ];
 
 export const columnsRole: Array<Column> = [
-  // { id: "admin_name", label: "Name", minWidth: 150 },
   { id: "name", label: "Role Name", minWidth: 150 },
   { id: "type", label: "Role Type", minWidth: 150 },
-  { id: "permissions", label: "Permission", minWidth: 150 },
+  { id: "permissions", label: "Permissions", minWidth: 150 },
 ];
 
 export const columnsCategories: Array<Column> = [

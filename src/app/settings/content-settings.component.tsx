@@ -1,9 +1,11 @@
 import React from "react";
-import { PropsType } from "../types/types";
 import { Grid, CssBaseline, Paper, Box, Typography, TextField, FormControlLabel, Checkbox, Button } from "@mui/material";
 
-export default function ContentSettingsAdminPage({ handleSubmit }: PropsType) {
+export default function ContentSettingsAdminPage() {
   const [disabled, setDisabled] = React.useState(true);
+  const handleSubmit = () => {
+    
+  }
 
   return (
     <Grid container sx={{ justifyContent: "center" }}>

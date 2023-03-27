@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RoleState } from "../types/role-state.type";
-import { addRole, getRole } from "./roles.actions";
+import { addRole, getRole, getRoleById, updateRole } from "./roles.actions";
 
 const initialState: RoleState = {
   roles: [],
@@ -34,6 +34,19 @@ const rolesSlice = createSlice({
         state.pending.roles = false;
         state.errors.roles = action.payload.message;
       })
+      // ================ Get role by id ===============
+      .addCase(getRoleById.pending, (state) => {
+        state.pending.role = true;
+        state.errors.role = null;
+      })
+      .addCase(getRoleById.fulfilled, (state, { payload }) => {
+        state.pending.role = false;
+        state.role = payload;
+      })
+      .addCase(getRoleById.rejected, (state, action: any & { payload: any }) => {
+        state.pending.role = false;
+        state.errors.role = action.payload.message;
+      })
       // ================ Add roles ===============
       .addCase(addRole.pending, (state) => {
         state.pending.role = true;
@@ -44,6 +57,19 @@ const rolesSlice = createSlice({
         state.role = payload;
       })
       .addCase(addRole.rejected, (state, action: any & { payload: any }) => {
+        state.pending.role = false;
+        state.errors.role = action.payload.message;
+      })
+      // ================ Update role ===============
+      .addCase(updateRole.pending, (state) => {
+        state.pending.role = true;
+        state.errors.role = null;
+      })
+      .addCase(updateRole.fulfilled, (state, { payload }) => {
+        state.pending.role = false;
+        state.role = payload;
+      })
+      .addCase(updateRole.rejected, (state, action: any & { payload: any }) => {
         state.pending.role = false;
         state.errors.role = action.payload.message;
       })
