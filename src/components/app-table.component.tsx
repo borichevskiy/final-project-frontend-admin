@@ -10,7 +10,7 @@ import { AppTableProps, Column } from "app/types/props.type";
 export default function AppTable (
   {columns, rows, isUserTable, handleOpenFormEdit, handleOpenConfirmDelete} : AppTableProps) {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(3);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);

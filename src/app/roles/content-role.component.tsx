@@ -20,7 +20,7 @@ export default function ContentAdminRolePage() {
 
   useEffect(() => {
     dispatch(getRole());
-  }, [dispatch]);
+  }, [dispatch, id, openForm]);
 
   const handleOpenForm = (id: number | string | undefined) => {
     setId(id);
@@ -48,7 +48,6 @@ export default function ContentAdminRolePage() {
       .then(({ meta }) => {
         if (meta.requestStatus !== 'rejected') {
           handleCloseConfirmWindow();
-          navigate(0);
         }
       })
   }

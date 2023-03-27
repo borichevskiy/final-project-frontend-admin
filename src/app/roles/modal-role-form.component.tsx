@@ -41,11 +41,11 @@ export default function ModalRoleForm({ id, isOpen, handleClose }: ModalFormRole
       setButtonTitle('UPDATE');
       dispatch(getRoleById({ id: roleId }));
     } else {
-        setFormTitle('CREATE ROLE');
-        setButtonTitle('CREATE');
-        setRoleName('');
-        setRoleType(UserRoleTypes.Client);
-        setPermissions([]);
+      setFormTitle('CREATE ROLE');
+      setButtonTitle('CREATE');
+      setRoleName('');
+      setRoleType(UserRoleTypes.Client);
+      setPermissions([]);
     }
   }, [id]);
 
@@ -89,7 +89,7 @@ export default function ModalRoleForm({ id, isOpen, handleClose }: ModalFormRole
       .then(({ meta }) => {
         if (meta.requestStatus !== 'rejected') {
           currentTarget.reset();
-          navigate(0);
+          handleClose();
         }
       })
   }
@@ -108,7 +108,7 @@ export default function ModalRoleForm({ id, isOpen, handleClose }: ModalFormRole
       .then(({ meta }) => {
         if (meta.requestStatus !== 'rejected') {
           currentTarget.reset();
-          navigate(0);
+          handleClose();
         }
       })
   }
