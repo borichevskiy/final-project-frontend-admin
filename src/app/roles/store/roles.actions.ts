@@ -10,7 +10,7 @@ const headers = {
   },
 };
 
-export const getRole = createAsyncThunk(
+export const getRoles = createAsyncThunk(
   "roles/getAll",
   async (_, thunkAPI)  => {
     try {

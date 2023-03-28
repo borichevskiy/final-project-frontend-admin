@@ -1,12 +1,12 @@
 import { ReactNode } from "react";
 import { RowsCategories } from "app/categories/types/categories-rows.type";
-import { RowsUsers } from "app/users/types/users-rows.type";
 import { RoleDto } from "../roles/types/role-dto.type";
+import { UserDto } from "app/users/types/users-dto.type";
 
 
 // =============== Table ===============
 export type AppTableProps = {
-  rows: Array<RowsUsers> | Array<RowsCategories> | Array<RoleDto>;
+  rows: Array<UserDto> | Array<RowsCategories> | Array<RoleDto>;
   columns: Array<Column>;
   isUserTable: boolean;
   handleOpenFormEdit: (id : string | number) => void;

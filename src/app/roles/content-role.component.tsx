@@ -1,6 +1,6 @@
 import { columnsRole } from "../constants/constants";
 import { useAppDispatch } from "../../hooks/redux";
-import { deleteRole, getRole } from "./store/roles.actions";
+import { deleteRole, getRoles } from "./store/roles.actions";
 import { useRoleSelector } from "./store/roles.selectors";
 import AppTable from "components/app-table.component";
 import { useEffect, useState } from "react";
@@ -19,7 +19,7 @@ export default function ContentAdminRolePage() {
   const [id, setId] = useState<number | string | undefined>(undefined);
 
   useEffect(() => {
-    dispatch(getRole());
+    dispatch(getRoles());
   }, [dispatch, id, openForm]);
 
   const handleOpenForm = (id: number | string | undefined) => {
