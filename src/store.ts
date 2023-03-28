@@ -8,13 +8,13 @@ import personalInfo from './app/admin-personal-info/store/personal-info.slice';
 import userSettingsReducer from './app/settings/store/settings.slice';
 
 const rootReducer = combineReducers({
-  categoryReducer,
-  productsReducer,
-  roleReducer,
-  authReducer,
-  userReducer,
-  personalInfo,
-  userSettingsReducer
+    categoryReducer,
+    productsReducer,
+    roleReducer,
+    authReducer,
+    userReducer,
+    personalInfo,
+    userSettingsReducer
 });
 
 const setupStore = () => {
