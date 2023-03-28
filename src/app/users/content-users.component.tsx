@@ -1,5 +1,5 @@
 //============== App ===================
-import React from "react";
+import React, { useState } from "react";
 import { columnsUser } from "../constants/constants";
 import AppTable from "components/app-table.component";
 import { RowsUsers } from "./types/users-rows.type";
@@ -18,7 +18,42 @@ export const rows: Array<RowsUsers> = [
 ];
 
 export default function ContentAdminUsersPage() {
+  const [openForm, setOpenForm] = useState(false);
+  const [openConfirmWindow, setOpenConfirmWindow] = useState(false);
+  const [id, setId] = useState<number | string | undefined>(undefined);
+
+  const handleOpenForm = (id: number | string | undefined) => {
+    setId(id);
+    setOpenForm(true);
+  };
+
+  const handleCloseForm = () => {
+    setOpenForm(false);
+  };
+
+  const handleOpenConfirmWindow = () => {
+    setOpenConfirmWindow(true);
+  };
+
+  const handleCloseConfirmWindow = () => {
+    setOpenConfirmWindow(false);
+  };
   return (
-    <AppTable rows={rows} columns={columnsUser} />
+    <>
+      {/* <ModalRoleForm 
+        id={id} 
+        formTitle="NEW ROLE"  
+        isOpen={openForm} 
+        handleClose={handleCloseForm}
+      /> */}
+      {/* Confirm window */}
+      <AppTable
+        rows={rows}
+        columns={columnsUser}
+        isUserTable={false}
+        handleOpenFormEdit={handleOpenForm}
+        handleOpenConfirmDelete={handleOpenConfirmWindow}
+      />
+    </>
   );
 }

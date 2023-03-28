@@ -24,7 +24,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import LogoutIcon from '@mui/icons-material/Logout';
 
 import { Link } from "react-router-dom";
-import { Props } from "../app/types/types";
+import { LayoutProps } from "../app/types/props.type";
 import Grid from "@mui/material/Grid";
 
 const drawerWidth = 240;
@@ -63,7 +63,7 @@ interface AppBarProps extends MuiAppBarProps {
 }
 
 const AppBar = styled(
-  MuiAppBar, 
+  MuiAppBar,
   {
     shouldForwardProp: (prop) => prop !== "open",
   }
@@ -100,7 +100,7 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-export default function Layout({ children, nav, title }: Props) {
+export default function Layout({ children, nav, title }: LayoutProps) {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
 
@@ -132,8 +132,8 @@ export default function Layout({ children, nav, title }: Props) {
           <Typography variant="h6" noWrap component="div">
             {title}
           </Typography>
-          <Grid item sx={{marginLeft: 'auto'}}>
-            <Link to="/app/auth/log-out" style={{color: 'white'}}>
+          <Grid item sx={{ marginLeft: 'auto' }}>
+            <Link to="/app/auth/log-out" style={{ color: 'white' }}>
               <LogoutIcon />
             </Link>
           </Grid>

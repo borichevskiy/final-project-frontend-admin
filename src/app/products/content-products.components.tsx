@@ -17,6 +17,9 @@ import { useProductSelector } from "./store/products.selectors";
 import { createProduct, getProducts } from "./store/products.action";
 import { ProductsDto } from "./types/product-dto.type";
 import { printReceived } from "jest-matcher-utils";
+import ModalProductForm from "./modal-product-form.component";
+import ConfirmDeletionWindow from "components/modal-form-confirm-delete.component";
+import OpenModalFormButton from "components/modal-open-form-button.component";
 
 export default function ContentAdminProductsPage() {
   const [selectValue, setSelectValue] = useState("");
