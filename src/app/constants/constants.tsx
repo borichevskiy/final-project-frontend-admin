@@ -34,13 +34,13 @@ export const nav: NavParams[] = [
 ];
 
 export const columnsUser: Array<Column> = [
-  { id: "name", label: "Name", minWidth: 150 },
   { id: "email", label: "Email", minWidth: 170 },
+  { id: "status", label: "Status", minWidth: 100 },
+  { id: "fullName", label: "Full Name", minWidth: 150 },
   { id: "phone", label: "Phone", minWidth: 170 },
   { id: "address", label: "Address", minWidth: 175 },
-  { id: "status", label: "Status", minWidth: 100 },
-  { id: "role_name", label: "Role Name", minWidth: 100 },
-  { id: "role_type", label: "Role Type", minWidth: 100 },
+  { id: "roleName", label: "Role Name", minWidth: 100 },
+  { id: "roleType", label: "Role Type", minWidth: 100 },
 ];
 
 export const columnsRole: Array<Column> = [

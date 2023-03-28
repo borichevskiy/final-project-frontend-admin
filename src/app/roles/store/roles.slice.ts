@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RoleState } from "../types/role-state.type";
-import { addRole, getRole, getRoleById, updateRole } from "./roles.actions";
+import { addRole, getRoles, getRoleById, updateRole } from "./roles.actions";
 
 const initialState: RoleState = {
   roles: [],
@@ -22,15 +22,15 @@ const rolesSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // ================ Get roles ===============
-      .addCase(getRole.pending, (state) => {
+      .addCase(getRoles.pending, (state) => {
         state.pending.roles = true;
         state.errors.roles = null;
       })
-      .addCase(getRole.fulfilled, (state, { payload }) => {
+      .addCase(getRoles.fulfilled, (state, { payload }) => {
         state.pending.roles = false;
         state.roles = payload;
       })
-      .addCase(getRole.rejected, (state, action: any & { payload: any }) => {
+      .addCase(getRoles.rejected, (state, action: any & { payload: any }) => {
         state.pending.roles = false;
         state.errors.roles = action.payload.message;
       })

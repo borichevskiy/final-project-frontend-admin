@@ -29,13 +29,14 @@ export default function AppTable (
             <TableRow>
               {columns.map((column : Column) => (
                 <TableCell
+                  align={"center"}
                   key={column.id}
                   style={{ minWidth: column.minWidth }}
                 >
                   {column.label}
                 </TableCell>
               ))}
-              <TableCell align={"right"}></TableCell>
+              <TableCell/>
             </TableRow>
           </TableHead>
 
@@ -51,11 +52,13 @@ export default function AppTable (
                     tabIndex={-1}
                   >
                     {columns.map((column) => {
-                      let cellValue : string = row[column.id];
+                      let cellValue : string = row[column.id].toString();
+                      if (!cellValue|| cellValue.length < 2)
+                        cellValue = '-';
                       if (Array.isArray(row[column.id]))
-                        cellValue = row[column.id].join(', ')
+                        cellValue = row[column.id].join(', ');
                       return (
-                        <TableCell key={column.id}>
+                        <TableCell key={column.id} align={"center"}>
                           {column.format && typeof cellValue === "number"
                             ? column.format(cellValue)
                             : cellValue}
@@ -73,7 +76,10 @@ export default function AppTable (
                       {
                         isUserTable 
                           ? 
-                            <IconButton onClick={() => handleOpenConfirmDelete(row.id)}>
+                            <IconButton 
+                              onClick={() => handleOpenConfirmDelete(row.id)}
+                              sx={{color: 'black', padding: 0}}
+                            >
                               <BlockIcon /> 
                             </IconButton>
                           :
