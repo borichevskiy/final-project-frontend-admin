@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { CategoryState } from "../types/category-state.type";
 import {
   createCategory,
+  deleteCategory,
   getCategories,
   getCategoryById,
   updateCategory,
@@ -88,7 +89,21 @@ const categoriesSlice = createSlice({
           state.pending.category = false;
           state.errors.category = action.payload.message;
         }
-      );
+      )
+      // ================ Delete category ================
+      .addCase(deleteCategory.pending, (state) => {
+        state.pending.category = true;
+        state.errors.category = null;
+      })
+      .addCase(deleteCategory.fulfilled, (state, { payload }) => {
+        state.pending.category = false;
+        state.category = payload;
+      })
+      .addCase(deleteCategory.rejected, (state, action: any & { payload: any }) => {
+          state.pending.category = false;
+          state.errors.category = action.payload.message;
+        }
+      )
   },
 });
 

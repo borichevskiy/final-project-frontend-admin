@@ -7,7 +7,7 @@ import { createCategory, getCategoryById, updateCategory } from "./store/categor
 import { useCategorySelector } from "./store/categories.selectors";
 import { CreateCategoryDto } from "./types/create-category-dto.type";
 
-export default function ModalRoleForm({ id, isOpen, handleClose }: ModalFormRoleProps) {
+export default function ModalCategoryForm({ id, isOpen, handleClose }: ModalFormRoleProps) {
   const dispatch = useAppDispatch();
 
   const [formTitle, setFormTitle] = useState<string>('CREATE CATEGORY');
@@ -65,7 +65,7 @@ export default function ModalRoleForm({ id, isOpen, handleClose }: ModalFormRole
 
     const data = new FormData(event.currentTarget);
     const name: string = String(data.get('categoryName'));
-    const description: string = String(data.get('categoryName'));
+    const description: string = String(data.get('categoryDescription'));
     const dto: CreateCategoryDto = {
       name, description
     };
