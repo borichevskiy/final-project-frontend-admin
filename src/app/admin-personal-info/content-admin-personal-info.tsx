@@ -1,9 +1,9 @@
 import {useAppDispatch} from "../../hooks/redux";
 import {UpdateAdminInfoDtoType} from "./types/update-admin-info-dto.type";
 import {updateUserInfo} from "./store/personal-info.actions";
-import SettingsForm from "./settings-form.component";
+import SettingsForm from "./personal-info-form.component";
 
-export default function ContentAdminSettings() {
+export default function ContentAdminPersonalInfo() {
 
     const dispatch = useAppDispatch();
 

@@ -1,7 +1,7 @@
-import SettingsRoutes from "./settings.routes";
+import PersonalInfoRoutes from "./personal-info.routes";
 
 export default function SettingsPage() {
   return (
-    <SettingsRoutes/>
+    <PersonalInfoRoutes/>
   )
 }
