@@ -23,7 +23,7 @@ export const getProducts = createAsyncThunk(
 
 export const getProductById = createAsyncThunk<
   ProductsDto,
-  { productId: number }
+  { productId: string }
 >("products/getById", async ({ productId }, thunkAPI) => {
   try {
     const response = await repository.get(`/products/${productId}`, headers);

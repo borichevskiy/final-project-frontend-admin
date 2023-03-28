@@ -6,11 +6,7 @@ export default function OpenModalFormButton(
   { handleClickOpen, buttonTitle }: OpenModalFormButtonProps) {
   return (
     <Button onClick={() => handleClickOpen(undefined)} sx={{ marginBottom: 2 }}>
-      <AddIcon
-        sx={{
-          marginRight: 2,
-        }}
-      />
+      <AddIcon/>
       <Typography variant="body2" color="text.primary">
         {buttonTitle}
       </Typography>
