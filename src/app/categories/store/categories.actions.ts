@@ -57,3 +57,15 @@ export const updateCategory = createAsyncThunk<
     return thinkAPI.rejectWithValue("Can`t update category.");
   }
 });
+
+export const deleteCategory = createAsyncThunk<
+  CategoryDto,
+  { categoryId: number }
+>("category/deleteCategory", async ({ categoryId }, thunkAPI) => {
+  try {
+    const response = await repository.delete(`/categories/${categoryId}`, headers);
+    return response.data;
+  } catch (e) {
+    return thunkAPI.rejectWithValue("Can`t get categories.");
+  }
+});
