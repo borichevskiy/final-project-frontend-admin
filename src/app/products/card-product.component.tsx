@@ -38,7 +38,8 @@ export type CardProductProps = {
 export default function CardProduct({ product, handleOpenFormEdit, handleOpenConfirmWindow }: CardProductProps) {
 
   return (
-    <Grid>
+    <Grid
+    item xs={4} md={3}>
       <Card sx={{ maxWidth: 300 }}>
         <CardMedia
           sx={{ height: 200 }}
@@ -65,7 +66,7 @@ export default function CardProduct({ product, handleOpenFormEdit, handleOpenCon
               onClick={() => handleOpenConfirmWindow(product.id)}
               sx={{ color: 'black', padding: 0 }}
             >
-              
+
               <DeleteIcon />
             </IconButton>
           </Typography>

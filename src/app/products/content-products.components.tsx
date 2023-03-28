@@ -3,6 +3,7 @@ import * as React from "react";
 import {
   Box,
   FormControl,
+  Grid,
   InputLabel,
   MenuItem,
   Select,
@@ -72,14 +73,20 @@ export default function ContentAdminProductsPage() {
         handleClose={handleCloseConfirmWindow}
         isOpen={openConfirmWindow}
         handleConfirm={handleConfirm} />
-      {products.map((product) => (
-        <CardProduct
-          key={product.id}
-          product={product}
-          handleOpenFormEdit={handleOpenForm}
-          handleOpenConfirmWindow={handleOpenConfirmWindow}
-        />
-      ))}
+      <Grid
+        container
+        spacing={{ xs: 2, md: 3}} 
+        columns={{ xs: 4, sm: 8, md: 12 }}
+        direction="row">
+        {products.map((product) => (
+          <CardProduct
+            key={product.id}
+            product={product}
+            handleOpenFormEdit={handleOpenForm}
+            handleOpenConfirmWindow={handleOpenConfirmWindow}
+          />
+        ))}
+      </Grid>
     </>
   );
 }

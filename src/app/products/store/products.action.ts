@@ -10,7 +10,7 @@ const headers = {
 };
 
 export const getProducts = createAsyncThunk(
-  "category/getAll",
+  "products/getAll",
   async (_, thunkAPI) => {
     try {
       const response = await repository.get("/products", headers);

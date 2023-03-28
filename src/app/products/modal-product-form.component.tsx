@@ -7,10 +7,14 @@ import { ModalFormRoleProps } from "app/types/props.type";
 import { ProductsDto } from "./types/product-dto.type";
 import { createProduct, getProductById, updateProduct } from "./store/products.action";
 import { useProductSelector } from "./store/products.selectors";
+import { useCategorySelector } from "app/categories/store/categories.selectors";
+import { getCategories } from "app/categories/store/categories.actions";
+import { CategoryDto } from "app/categories/types/category-dto.type";
 
 export default function ModalProductForm({ id, isOpen, handleClose }: ModalFormRoleProps) {
   const dispatch = useAppDispatch();
   const { product } = useProductSelector();
+  const { categories } = useCategorySelector();
 
   const [formTitle, setFormTitle] = useState<string>('CREATE PRIDUCT');
   const [buttonTitle, setButtonTitle] = useState<string>('CREATE');
@@ -19,8 +23,16 @@ export default function ModalProductForm({ id, isOpen, handleClose }: ModalFormR
   const [productPrice, setProductPrice] = useState<number>(0);
   const [productQuantity, setProductQuantity] = useState<number>(0);
   const [productBrand, setProductBrand] = useState<string>('');
-  const [productCategoryName, setProductCategoryName] = useState<string>('');
+  const [productCategoryName, setProductCategoryName] = useState<number>(0);
   const [productDescription, setProductDescription] = useState<string>('');
+
+  useEffect(() => {
+    dispatch(getCategories())
+  }, [dispatch])
+
+  // useEffect(() => {
+  //   // console.log(categories)
+  // },[categories])
 
   useEffect(() => {
     if (id) {
@@ -31,23 +43,14 @@ export default function ModalProductForm({ id, isOpen, handleClose }: ModalFormR
     } else {
       setFormTitle('CREATE PRODUCT');
       setButtonTitle('CREATE');
-      // setProductName('');
-      // setProductDescription('');
-      // setProductBrand('')
-      // setProductCategoryName('')
-      // setProductPrice(0)
-      // setProductQuantity(0)
     }
   }, [dispatch, id])
 
   useEffect(() => {
     if (product) {
-      console.log(product.name)
       setProductName(product.name);
-      console.log(product)
       setProductDescription(product.description);
       setProductBrand(product.brand)
-      setProductCategoryName(product.categoryName)
       setProductPrice(product.price)
       setProductQuantity(product.quantity)
     }
@@ -56,13 +59,14 @@ export default function ModalProductForm({ id, isOpen, handleClose }: ModalFormR
 
   const handleSubmitCreate = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    console.log(productCategoryName)
     let dto: ProductsDto = {
       name: productName,
       price: productPrice,
       quantity: productQuantity,
       brand: productBrand,
       description: productDescription,
-      categoryName: productCategoryName
+      categoryId: productCategoryName
     }
     dispatch(createProduct({ dto }))
     handleClose()
@@ -77,7 +81,7 @@ export default function ModalProductForm({ id, isOpen, handleClose }: ModalFormR
       quantity: productQuantity,
       brand: productBrand,
       description: productDescription,
-      categoryName: productCategoryName
+      categoryId: productCategoryName
     }
     dispatch(updateProduct({ productId, dto }))
     handleClose()
@@ -106,8 +110,8 @@ export default function ModalProductForm({ id, isOpen, handleClose }: ModalFormR
           type="name"
           id="name"
           value={productName}
-          onChange={(event) => setProductName(event.target.value)} 
-          />
+          onChange={(event) => setProductName(event.target.value)}
+        />
         <TextField margin="normal"
           fullWidth
           name="price"
@@ -140,14 +144,26 @@ export default function ModalProductForm({ id, isOpen, handleClose }: ModalFormR
           id="description"
           value={productDescription}
           onChange={(event) => setProductDescription(event.target.value)} />
-        <TextField margin="normal"
-          fullWidth
-          name="category"
-          type="category"
-          label="category"
-          id="category"
-          value={productCategoryName}
-          onChange={(event) => setProductCategoryName(event.target.value)} />
+        <Box sx={{ minWidth: 120, marginTop: 2 }}>
+          <FormControl fullWidth>
+            <InputLabel>Category</InputLabel>
+            <Select
+              required
+              name="category"
+              type="category"
+              label="category"
+              id="category"
+              value={productCategoryName}
+              onChange={(event) => setProductCategoryName(Number(event.target.value))}
+            >
+              {categories.map((category) => {
+                return (
+                  <MenuItem value={category.id}>{category.name}</MenuItem>
+                );
+              })} 
+            </Select>
+          </FormControl>
+        </Box>
       </ModalFormLayout>
     </>
   );
