@@ -3,12 +3,16 @@ import categoryReducer from "./app/categories/store/categories.slice";
 import productsReducer from "./app/products/store/products.slice";
 import roleReducer from "./app/roles/store/roles.slice";
 import authReducer from './app/auth/store/auth.slice';
+import settingsReducer from './app/admin-personal-info/store/settings.slice';
+import userSettingsReducer from './app/settings/store/settings.slice';
 
 const rootReducer = combineReducers({
   categoryReducer,
   productsReducer,
   roleReducer,
-  authReducer
+  authReducer,
+  settingsReducer,
+  userSettingsReducer
 });
 
 const setupStore = () => {

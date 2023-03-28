@@ -3,6 +3,9 @@ import SettingsAccessibilityIcon from "@mui/icons-material/SettingsAccessibility
 import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
 import CategoryIcon from "@mui/icons-material/Category";
 import SettingsIcon from "@mui/icons-material/Settings";
+import VpnKeyOffIcon from '@mui/icons-material/VpnKeyOff';
+
+
 import { Column, NavParams } from "../types/props.type";
 
 export const nav: NavParams[] = [
@@ -28,6 +31,11 @@ export const nav: NavParams[] = [
   },
   {
     icon: <SettingsIcon />,
+    text: "Personal Info",
+    navigatePath: "/app/admin/personal-info",
+  },
+  {
+    icon: <VpnKeyOffIcon/>,
     text: "Settings",
     navigatePath: "/app/admin/settings",
   },
