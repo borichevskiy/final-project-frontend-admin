@@ -7,7 +7,7 @@ import { Box, Grid } from "@mui/material";
 import { ModalFormLayoutProps } from "../app/types/props.type";
 
 export default function ModalFormLayout(
-  { children, formTitle, buttonTitle, handleSubmit, handleSubmitForm, isOpen, handleClose }: ModalFormLayoutProps) {
+  { children, formTitle, buttonTitle, handleSubmit, isOpen, handleClose }: ModalFormLayoutProps) {
 
   return (
     <Grid container sx={{ marginBottom: 4 }}>
@@ -17,7 +17,7 @@ export default function ModalFormLayout(
           <Box
             component="form"
             noValidate
-            onSubmit={handleSubmit(handleSubmitForm)}
+            onSubmit={handleSubmit}
             sx={{ mt: 1 }}
           >
             {children}
