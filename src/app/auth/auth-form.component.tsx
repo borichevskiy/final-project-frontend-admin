@@ -1,60 +1,90 @@
-import { Avatar, Box, Button, CssBaseline, Grid, Paper, TextField, Typography, Link } from '@mui/material';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
-import { FormPropsType } from './types/form-props.type';
+import {
+  Avatar,
+  Box,
+  Button,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
+import { FormPropsType } from "./types/form-props.type";
+import { Controller } from "react-hook-form";
 
-const Form = ({ title, nameBtn, handleSubmit }: FormPropsType) => {
-  const color = '#1976d2';
+const Form = ({
+  title,
+  nameBtn,
+  handleSubmit,
+  handleSubmitForm,
+  isSignIn,
+  control,
+  errors,
+}: FormPropsType) => {
+  const color = "#1976d2";
+
   return (
-    <Grid container sx={{ height: '100vh' }}>
+    <Grid container sx={{ height: "100vh" }}>
       <Grid
         container
         sx={{
           my: 8,
           mx: 4,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          marginLeft: 'auto',
-          marginRight: 'auto'
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          marginLeft: "auto",
+          marginRight: "auto",
         }}
       >
         <Avatar
           sx={{
             m: 1,
             bgcolor: color,
-            color: 'white'
+            color: "white",
           }}
         >
-          <LoginOutlinedIcon />
+          {isSignIn ? <LoginOutlinedIcon /> : <LockOutlinedIcon />}
         </Avatar>
         <Typography component="h1" variant="h5">
           {title}
         </Typography>
-        <Grid
+        <Box
           component="form"
           noValidate
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(handleSubmitForm)}
           sx={{ mt: 1 }}
         >
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email"
+          <Controller
             name="email"
-            autoComplete="email"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                helperText={errors.email ? `${errors.email.message}` : ""}
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email"
+                error={errors.email ? true : false}
+                {...field}
+              />
+            )}
           />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
+          <Controller
             name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                helperText={errors.password ? `${errors.password.message}` : ""}
+                margin="normal"
+                fullWidth
+                label="Password"
+                type="password"
+                id="password"
+                error={errors.password ? true : false}
+                {...field}
+              />
+            )}
           />
           <Button
             type="submit"
@@ -63,22 +93,21 @@ const Form = ({ title, nameBtn, handleSubmit }: FormPropsType) => {
             sx={{
               mt: 3,
               mb: 2,
-              borderRadius: '20px',
+              borderRadius: "20px",
               backgroundColor: color,
-              '&:hover': {
+              "&:hover": {
                 backgroundColor: color,
-                color: 'white',
-              }
+                color: "white",
+              },
             }}
           >
             {nameBtn}
           </Button>
-          <Grid container>
-          </Grid>
-        </Grid>
+          <Grid container></Grid>
+        </Box>
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
 export default Form;
