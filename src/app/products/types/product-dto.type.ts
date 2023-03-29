@@ -6,5 +6,5 @@ export interface ProductsDto extends UUIDDto {
   price: number;
   quantity: number;
   brand: string;
-  categoryName: string;
+  categoryId: number;
 }

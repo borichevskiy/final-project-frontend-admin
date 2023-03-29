@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Grid,
   Card,
@@ -7,25 +7,39 @@ import {
   Typography,
   CardActions,
   Button,
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  TextField,
+  IconButton,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 // =========== App =======================
 import { useAppDispatch } from "../../hooks/redux";
-import { getProducts } from "./store/products.action";
+import { deleteProduct, getProductById, getProducts, updateProduct } from "./store/products.action";
 import { useProductSelector } from "./store/products.selectors";
+import { ProductsDto } from "./types/product-dto.type";
+import OpenModalFormButton from "components/modal-open-form-button.component";
+import ModalProductForm from "./modal-product-form.component";
+import ConfirmDeletionWindow from "components/modal-form-confirm-delete.component";
+import FormDialogWindow from "../../components/form-modal-layout.component";
 
-export default function CardProduct() {
-  const dispatch = useAppDispatch();
-  const { products } = useProductSelector();
+export type CardProductProps = {
+  product: ProductsDto,
+  handleOpenFormEdit: (id: string | number | undefined) => void,
+  handleOpenConfirmWindow: (id: string | number | undefined) => void
+}
 
-  useEffect(() => {
-    dispatch(getProducts());
-  }, [dispatch]);
+export default function CardProduct({ product, handleOpenFormEdit, handleOpenConfirmWindow }: CardProductProps) {
 
   return (
-    <Grid>
+    <Grid
+    item xs={4} md={3}>
       <Card sx={{ maxWidth: 300 }}>
         <CardMedia
           sx={{ height: 200 }}
@@ -34,31 +48,28 @@ export default function CardProduct() {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            {products.map((i) => (
-              <div key={i.name}>{i.name}</div>
-            ))}
-            {/* Product Name */}
+            <div key={product.id}>{product.name}</div>
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {products.map((i) => (
-              <div key={i.name}>{i.description}</div>
-            ))}
-            {/* Product description */}
+            <div key={product.id}>{product.description}</div>
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="medium">
-            <EditIcon />
-            <Typography variant="body2" color="text.secondary">
-              EDIT
-            </Typography>
-          </Button>
-          <Button size="medium">
-            <DeleteIcon />
-            <Typography variant="body2" color="text.secondary">
-              DELETE
-            </Typography>
-          </Button>
+          <Typography variant="body2" color="text.secondary">
+            <IconButton
+              onClick={() => handleOpenFormEdit(product.id)}
+              sx={{ color: 'black', padding: 0 }}
+            >
+              <EditIcon />
+            </IconButton>
+            <IconButton
+              onClick={() => handleOpenConfirmWindow(product.id)}
+              sx={{ color: 'black', padding: 0 }}
+            >
+
+              <DeleteIcon />
+            </IconButton>
+          </Typography>
         </CardActions>
       </Card>
     </Grid>
