@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { RowsCategories } from "app/categories/types/categories-rows.type";
 import { RoleDto } from "../roles/types/role-dto.type";
 import { UserDto } from "app/users/types/users-dto.type";
+import { FieldValues, UseFormHandleSubmit } from "react-hook-form";
 
 
 // =============== Table ===============
@@ -26,7 +27,8 @@ export type ModalFormLayoutProps = {
   children: ReactNode;
   formTitle: string;
   buttonTitle: string;
-  handleSubmit: React.FormEventHandler<HTMLFormElement>;
+  handleSubmit: UseFormHandleSubmit<FieldValues>;
+  handleSubmitForm: (data: FieldValues) => void;
   isOpen: boolean;
   handleClose: () => void;
 };
