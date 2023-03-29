@@ -57,8 +57,7 @@ export default function ModalStatusForm({ id, isOpen, handleClose }: ModalFormRo
     <ModalFormLayout
       formTitle={'UPDATE USER STATUS'}
       buttonTitle={'SAVE'}
-      handleSubmit={handleSubmit}
-      handleSubmitForm={handleSubmitUpdateStatus}
+      handleSubmit={handleSubmit(handleSubmitUpdateStatus)}
       isOpen={isOpen}
       handleClose={handleClose}
     >

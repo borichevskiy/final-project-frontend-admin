@@ -27,8 +27,7 @@ export type ModalFormLayoutProps = {
   children: ReactNode;
   formTitle: string;
   buttonTitle: string;
-  handleSubmit: UseFormHandleSubmit<FieldValues>;
-  handleSubmitForm: (data: FieldValues) => void;
+  handleSubmit:  React.FormEventHandler<HTMLFormElement>;
   isOpen: boolean;
   handleClose: () => void;
 };

@@ -71,8 +71,7 @@ export default function ModalUserForm({ id, isOpen, handleClose }: ModalFormRole
     <ModalFormLayout
       formTitle={'UPDATE USER'}
       buttonTitle={'UPDATE'}
-      handleSubmit={handleSubmit}
-      handleSubmitForm={handleSubmitUpdate}
+      handleSubmit={handleSubmit(handleSubmitUpdate)}
       isOpen={isOpen}
       handleClose={handleClose}
     >
