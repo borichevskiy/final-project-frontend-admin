@@ -1,24 +1,9 @@
-import * as React from "react";
-
-import {
-  Box,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  TextField,
-} from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import FormDialogWindow from "../../components/form-modal-layout.component";
+import {Grid} from "@mui/material";
 import CardProduct from "./card-product.component";
 import { useState, useEffect } from "react";
 import { useAppDispatch } from "hooks/redux";
 import { useProductSelector } from "./store/products.selectors";
-import { createProduct, deleteProduct, getProducts } from "./store/products.action";
-import { ProductsDto } from "./types/product-dto.type";
-import { printReceived } from "jest-matcher-utils";
+import { deleteProduct, getProducts } from "./store/products.action";
 import ModalProductForm from "./modal-product-form.component";
 import ConfirmDeletionWindow from "components/modal-form-confirm-delete.component";
 import OpenModalFormButton from "components/modal-open-form-button.component";
@@ -57,27 +42,25 @@ export default function ContentAdminProductsPage() {
   const handleConfirm = () => {
     let productId: string = String(id)
     dispatch(deleteProduct({ productId }))
-    setOpenConfirmWindow(false)
+      .then(({ meta }) => {
+        if (meta.requestStatus !== 'rejected') {
+          handleCloseConfirmWindow();
+        }
+      })
   }
 
 
   return (
     <>
       <OpenModalFormButton handleClickOpen={handleOpenForm} buttonTitle="CREATE PRODUCT" />
-      <ModalProductForm
-        id={id}
-        isOpen={isOpen}
-        handleClose={handleCloseForm}
-      />
-      <ConfirmDeletionWindow
-        handleClose={handleCloseConfirmWindow}
-        isOpen={openConfirmWindow}
-        handleConfirm={handleConfirm} />
       <Grid
         container
-        spacing={{ xs: 2, md: 3}} 
-        columns={{ xs: 4, sm: 8, md: 12 }}
-        direction="row">
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: 2
+        }}
+      >
         {products.map((product) => (
           <CardProduct
             key={product.id}
@@ -87,6 +70,15 @@ export default function ContentAdminProductsPage() {
           />
         ))}
       </Grid>
+      <ModalProductForm
+        id={id}
+        isOpen={isOpen}
+        handleClose={handleCloseForm}
+      />
+      <ConfirmDeletionWindow
+        handleClose={handleCloseConfirmWindow}
+        isOpen={openConfirmWindow}
+        handleConfirm={handleConfirm} />
     </>
   );
 }
