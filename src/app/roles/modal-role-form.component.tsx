@@ -2,26 +2,32 @@ import { useAppDispatch } from "../../hooks/redux";
 import { addRole, getRoleById, updateRole } from "./store/roles.actions";
 import { useRoleSelector } from "./store/roles.selectors";
 import { useEffect, useState } from "react";
-import { Box, Chip, FormControl, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, TextField } from "@mui/material";
+import { Box, Chip, FormControl, FormHelperText, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, TextField } from "@mui/material";
 import { CreateRoleDto } from "./types/create-role-dto.type";
 import { UserRoleTypes } from "./enums/user-role-types.enum";
 import { UserPermissions } from "./enums/user-permissions.enum";
-import { useNavigate } from "react-router-dom";
 import ModalFormLayout from "components/form-modal-layout.component";
 import { ModalFormRoleProps } from "app/types/props.type";
+import { Controller, FieldValues, useForm } from "react-hook-form";
+import { schemaRole } from "./roles-schema.yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 export default function ModalRoleForm({ id, isOpen, handleClose }: ModalFormRoleProps) {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-
   const [formTitle, setFormTitle] = useState<string>('CREATE ROLE');
   const [buttonTitle, setButtonTitle] = useState<string>('CREATE');
-
   const { role } = useRoleSelector();
 
-  const [roleName, setRoleName] = useState<string>('');
-  const [selectRoleType, setRoleType] = useState<UserRoleTypes>(UserRoleTypes.Client);
-  const [permissions, setPermissions] = useState<UserPermissions[]>([]);
+  const {
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+    setValue
+  } = useForm({
+    mode: 'all',
+    resolver: yupResolver(schemaRole)
+  });
 
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -43,71 +49,49 @@ export default function ModalRoleForm({ id, isOpen, handleClose }: ModalFormRole
     } else {
       setFormTitle('CREATE ROLE');
       setButtonTitle('CREATE');
-      setRoleName('');
-      setRoleType(UserRoleTypes.Client);
-      setPermissions([]);
+      setValue('roleName', '');
+      setValue('rolePermissions', []);
+      setValue('roleType', UserRoleTypes.Client)
     }
   }, [id]);
 
   useEffect(() => {
     if (role) {
-      setRoleName(role.name);
-      setRoleType(role.type);
-      if (role.permissions.length === 0)
-        setPermissions([UserPermissions.All]);
-      else
-        setPermissions(role.permissions);
+      setValue('roleName', role.name);
+      setValue('roleType', role.type);
+      setValue('rolePermissions', role.permissions);
     }
   }, [role]);
 
-  const handleSelectRoleType = (event: SelectChangeEvent) => {
-    const indexOfS = Object.values(UserRoleTypes).indexOf(event.target.value as unknown as UserRoleTypes);
-    setRoleType(Object.values(UserRoleTypes)[indexOfS]);
-  };
-
-  const handleSelectPermissions = (event: SelectChangeEvent<typeof permissions>) => {
-    const { target: { value } } = event;
-    const values = typeof value === 'string' ? value.split(',') : value;
-    const returnedPermmisions = values.map((permission) => {
-      const indexOfS = Object.values(UserPermissions).indexOf(permission as unknown as UserPermissions);
-      return Object.values(UserPermissions)[indexOfS];
-    })
-    setPermissions(returnedPermmisions);
-  };
-
-  const handleSubmitCreate = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const currentTarget = event.currentTarget;
-
-    const data = new FormData(event.currentTarget);
-    const name: string = String(data.get('roleName'));
+  const handleSubmitCreate = (data: FieldValues) => {
     const dto: CreateRoleDto = {
-      name, type: selectRoleType, permissions
+      name: data.roleName,
+      type: data.roleType,
+      permissions: data.rolePermissions
     };
 
     dispatch(addRole({ dto }))
       .then(({ meta }) => {
         if (meta.requestStatus !== 'rejected') {
-          currentTarget.reset();
+          reset();
           handleClose();
         }
       })
   }
 
-  const handleSubmitUpdate = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const currentTarget = event.currentTarget;
+  const handleSubmitUpdate = (data: FieldValues) => {
 
-    const data = new FormData(event.currentTarget);
-    const name: string = String(data.get('roleName'));
     const dto: CreateRoleDto = {
-      name, type: selectRoleType, permissions
+      name: data.roleName,
+      type: data.roleType,
+      permissions: data.rolePermissions
     };
+
     const roleId = Number(id);
     dispatch(updateRole({ id: roleId, dto }))
       .then(({ meta }) => {
         if (meta.requestStatus !== 'rejected') {
-          currentTarget.reset();
+          reset();
           handleClose();
         }
       })
@@ -117,67 +101,109 @@ export default function ModalRoleForm({ id, isOpen, handleClose }: ModalFormRole
     <ModalFormLayout
       formTitle={formTitle}
       buttonTitle={buttonTitle}
-      handleSubmit={id ? handleSubmitUpdate : handleSubmitCreate}
+      handleSubmit={id ? handleSubmit(handleSubmitUpdate) : handleSubmit(handleSubmitCreate)}
       isOpen={isOpen}
       handleClose={handleClose}
     >
-      <TextField
-        margin="normal"
-        label="Role name"
+      <Controller
         name="roleName"
-        fullWidth
-        value={roleName}
-        onChange={(event) => setRoleName(event.target.value)}
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <TextField
+            helperText={errors.roleName ? `${errors.roleName.message}` : ''}
+            margin="normal"
+            fullWidth
+            label="Role name"
+            id="roleName"
+            value={value ? value : ''}
+            onChange={onChange}
+            error={errors.roleName ? true : false}
+          />
+        )}
       />
       <Box sx={{ marginTop: 2 }}>
         <FormControl fullWidth>
           <InputLabel id="select-role-type-label">Role type</InputLabel>
-          <Select
-            labelId="select-role-type-label"
-            id="select-role-type"
-            value={selectRoleType}
-            label="Role type"
-            onChange={handleSelectRoleType}
-          >
-            {Object.values(UserRoleTypes).map((roleType) => (
-              <MenuItem
-                key={roleType}
-                value={roleType}
-              >
-                {roleType}
-              </MenuItem>
-            ))}
-          </Select>
+          <Controller
+            name="roleType"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <>
+                <Select
+                  sx={{ width: '100%' }}
+                  labelId="select-role-type-label"
+                  label="Role type"
+                  error={errors.role ? true : false}
+                  value={value ? value : ''}
+                  onChange={onChange}
+                >
+                  {Object.values(UserRoleTypes).map((roleType) => (
+                    <MenuItem
+                      key={roleType}
+                      value={roleType}
+                    >
+                      {roleType}
+                    </MenuItem>
+                  ))}
+                </Select>
+                <FormHelperText
+                  sx={{ color: 'red' }}
+                >
+                  {errors.role ? `${errors.role.message}` : ''}
+                </FormHelperText>
+              </>
+            )}
+          />
         </FormControl>
       </Box>
       <Box sx={{ marginTop: 2 }}>
         <FormControl sx={{ width: '100%' }}>
           <InputLabel id="select-permissions-label">Permissions</InputLabel>
-          <Select
-            labelId="select-permissions-label"
-            id="select-permissions"
-            multiple
-            value={permissions}
-            onChange={handleSelectPermissions}
-            input={<OutlinedInput id="select-multiple-permissions" label="Permissions" />}
-            renderValue={(selected) => (
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                {selected.map((value) => (
-                  <Chip key={value} label={value} />
-                ))}
-              </Box>
+          <Controller
+            name="rolePermissions"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <>
+                <Select
+                  sx={{ width: '100%' }}
+                  labelId="select-permissions-label"
+                  label="Permissions"
+                  multiple
+                  error={errors.rolePermissions ? true : false}
+                  value={value ? value : []}
+                  onChange={onChange}
+                  input={
+                    <OutlinedInput
+                      id="select-multiple-permissions"
+                      label="Permissions"
+                    />
+                  }
+                  renderValue={(selected) => (
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                      {selected.map((value: any) => (
+                        <Chip key={value} label={value} />
+                      ))}
+                    </Box>
+                  )}
+                  MenuProps={MenuProps}
+                >
+                  {Object.values(UserPermissions).map((permission, index) => (
+                    <MenuItem
+                      key={permission}
+                      value={permission}
+                    >
+                      {permission}
+                    </MenuItem>
+                  ))}
+                </Select>
+                <FormHelperText
+                  sx={{ color: 'red' }}
+                >
+                  {errors.rolePermissions ? `${errors.rolePermissions.message}` : ''}
+                </FormHelperText>
+              </>
             )}
-            MenuProps={MenuProps}
-          >
-            {Object.values(UserPermissions).map((permission, index) => (
-              <MenuItem
-                key={permission}
-                value={permission}
-              >
-                {permission}
-              </MenuItem>
-            ))}
-          </Select>
+          />
         </FormControl>
       </Box>
     </ModalFormLayout>
