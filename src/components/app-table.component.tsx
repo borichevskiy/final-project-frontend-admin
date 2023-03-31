@@ -1,10 +1,12 @@
 import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material";
 import { useState } from "react";
 
+// ============== Icons ==============
 import EditIcon from "@mui/icons-material/Edit";
 import BlockIcon from "@mui/icons-material/Block";
 import DeleteIcon from '@mui/icons-material/Delete';
 
+// ============== Types ==============
 import { AppTableProps, Column } from "types/props.type";
 
 export default function AppTable(
@@ -39,7 +41,6 @@ export default function AppTable(
               <TableCell />
             </TableRow>
           </TableHead>
-
           <TableBody>
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -53,7 +54,7 @@ export default function AppTable(
                   >
                     {columns.map((column) => {
                       let cellValue: string = row[column.id].toString();
-                      if (!cellValue || cellValue.length < 2)
+                      if (!cellValue)
                         cellValue = '-';
                       if (Array.isArray(row[column.id]))
                         cellValue = row[column.id].join(', ');
@@ -65,30 +66,34 @@ export default function AppTable(
                         </TableCell>
                       );
                     })}
-
                     <TableCell align={"right"}>
-                      <IconButton
-                        onClick={() => handleOpenFormEdit(row.id)}
-                        sx={{ color: 'black', padding: 0 }}
-                      >
-                        <EditIcon />
-                      </IconButton>
+                      {
+                          row.roleType !== 'super-admin' &&
+                          <IconButton
+                            onClick={() => handleOpenFormEdit(row.id)}
+                            sx={{ color: 'black', padding: 0 }}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                      }
                       {
                         isUserTable
                           ?
-                          <IconButton
-                            onClick={() => handleOpenConfirmDelete(row.id)}
-                            sx={{ color: 'black', padding: 0 }}
-                          >
-                            <BlockIcon />
-                          </IconButton>
+                              row.roleType !== 'super-admin' &&
+                              <IconButton
+                                onClick={() => handleOpenConfirmDelete(row.id)}
+                                sx={{ color: 'black', padding: 0 }}
+                              >
+                                <BlockIcon />
+                              </IconButton>
+
                           :
-                          <IconButton
-                            onClick={() => handleOpenConfirmDelete(row.id)}
-                            sx={{ color: 'black', padding: 0 }}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
+                            <IconButton
+                              onClick={() => handleOpenConfirmDelete(row.id)}
+                              sx={{ color: 'black', padding: 0 }}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
                       }
                     </TableCell>
                   </TableRow>
