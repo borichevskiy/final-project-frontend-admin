@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
+
+//============== Types ===================
 import { UsersState } from "../types/user-state.type";
+
+//============== Actions ===================
 import { getUsers, getUserById, assignRoleOnUser, updateUserStatus} from "./users.actions";
 
 const initialState: UsersState = {
@@ -32,7 +36,7 @@ const usersSlice = createSlice({
       })
       .addCase(getUsers.rejected, (state, action: any & { payload: any }) => {
         state.pending.users = false;
-        state.errors.users = action.payload.message;
+        state.errors.users = action.payload;
       })
       // ================ Get user by id ===============
       .addCase(getUserById.pending, (state) => {
@@ -45,7 +49,7 @@ const usersSlice = createSlice({
       })
       .addCase(getUserById.rejected, (state, action: any & { payload: any }) => {
         state.pending.user = false;
-        state.errors.user = action.payload.message;
+        state.errors.user = action.payload;
       })
       // ================ Update user ===============
       .addCase(assignRoleOnUser.pending, (state) => {
@@ -58,7 +62,7 @@ const usersSlice = createSlice({
       })
       .addCase(assignRoleOnUser.rejected, (state, action: any & { payload: any }) => {
         state.pending.user = false;
-        state.errors.user = action.payload.message;
+        state.errors.user = action.payload;
       })
       // ================ Ban user ===============
       .addCase(updateUserStatus.pending, (state) => {
@@ -71,7 +75,7 @@ const usersSlice = createSlice({
       })
       .addCase(updateUserStatus.rejected, (state, action: any & { payload: any }) => {
         state.pending.user = false;
-        state.errors.user = action.payload.message;
+        state.errors.user = action.payload;
       })
   },
 });
