@@ -1,4 +1,4 @@
-import { BaseState } from 'app/types/base-state.type';
+import { BaseState } from 'types/base-state.type';
 import { RoleDto } from './role-dto.type';
 
 export interface RoleState extends BaseState {

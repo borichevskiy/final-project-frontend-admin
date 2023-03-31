@@ -1,23 +1,32 @@
-import { useAppDispatch } from "../../hooks/redux";
 import { useEffect, useState } from "react";
 import { TextField } from "@mui/material";
-import ModalFormLayout from "components/form-modal-layout.component";
-import { ModalFormRoleProps } from "app/types/props.type";
+
+//============== Types ===================
+import { ModalFormRoleProps } from "types/props.type";
+import { CreateCategoryDto } from "./types/create-category-dto.type";
+
+//============== Redux ===================
+import { useAppDispatch } from "../../hooks/redux";
 import {
   createCategory,
   getCategoryById,
   updateCategory,
 } from "./store/categories.actions";
 import { useCategorySelector } from "./store/categories.selectors";
-import { CreateCategoryDto } from "./types/create-category-dto.type";
-import { Controller, FieldValues, useForm } from "react-hook-form";
+
+//============== Yup ===================
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Controller, FieldValues, useForm } from "react-hook-form";
 import { schemaCreateCategory } from "./category-schemas.yap";
+
+//============== Components ===================
+import ModalFormLayout from "components/form-modal-layout.component";
+import ErrorAlert from "components/error-alert.component";
 
 export default function ModalCategoryForm({
   id,
   isOpen,
-  handleClose,
+  handleClose
 }: ModalFormRoleProps) {
   const dispatch = useAppDispatch();
 
@@ -36,7 +45,7 @@ export default function ModalCategoryForm({
   const [formTitle, setFormTitle] = useState<string>("CREATE CATEGORY");
   const [buttonTitle, setButtonTitle] = useState<string>("CREATE");
 
-  const { category } = useCategorySelector();
+  const categoryReducer = useCategorySelector();
 
   useEffect(() => {
     if (id) {
@@ -51,11 +60,11 @@ export default function ModalCategoryForm({
   }, [id]);
 
   useEffect(() => {
-    if (category) {
-      setValue("name", category.name);
-      setValue("description", category.description);
+    if (categoryReducer.category) {
+      setValue("name", categoryReducer.category.name);
+      setValue("description", categoryReducer.category.description);
     }
-  }, [category]);
+  }, [categoryReducer.category]);
 
   const handleSubmitCreate = (data: FieldValues) => {
     const dto: CreateCategoryDto = {
@@ -130,6 +139,7 @@ export default function ModalCategoryForm({
           />
         )}
       />
+      { categoryReducer.errors.category && <ErrorAlert title="Error" text={categoryReducer.errors.category}/> }   
     </ModalFormLayout>
   );
 }

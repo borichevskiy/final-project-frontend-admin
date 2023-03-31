@@ -1,22 +1,30 @@
-import { useAppDispatch } from "../../hooks/redux";
 import { useEffect, useState } from "react";
 import { Box, FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField } from "@mui/material";
-import ModalFormLayout from "components/form-modal-layout.component";
-import { ModalFormRoleProps } from "app/types/props.type";
-import { ProductsDto } from "./types/product-dto.type";
+
+// ================ Redux ===============
+import { useAppDispatch } from "../../hooks/redux";
 import { createProduct, getProductById, updateProduct } from "./store/products.action";
 import { useProductSelector } from "./store/products.selectors";
 import { useCategorySelector } from "app/categories/store/categories.selectors";
-import { getCategories, getCategoryById } from "app/categories/store/categories.actions";
-import { CategoryDto } from "app/categories/types/category-dto.type";
+import { getCategories } from "app/categories/store/categories.actions";
+
+// ================ Types ===============
+import { ModalFormRoleProps } from "types/props.type";
+import { ProductsDto } from "./types/product-dto.type";
+
+// ================ Components ===============
+import ModalFormLayout from "components/form-modal-layout.component";
+import ErrorAlert from "components/error-alert.component";
+
+// ================ Yup ===============
 import { Controller, FieldValues, useForm } from "react-hook-form";
 import { schemaProduct } from "./products-schema.yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 export default function ModalProductForm({ id, isOpen, handleClose }: ModalFormRoleProps) {
   const dispatch = useAppDispatch();
-  const { product } = useProductSelector();
-  const { categories } = useCategorySelector();
+  const productReducer = useProductSelector();
+  const categoriesReducer = useCategorySelector();
 
   const [formTitle, setFormTitle] = useState<string>('CREATE PRIDUCT');
   const [buttonTitle, setButtonTitle] = useState<string>('CREATE');
@@ -56,16 +64,16 @@ export default function ModalProductForm({ id, isOpen, handleClose }: ModalFormR
   }, [dispatch, id])
 
   useEffect(() => {
-    if (product) {
-      setValue('productName', product.name);
-      setValue('productImage', product.image);
-      setValue('productDescription', product.description);
-      setValue('productBrand', product.brand);
-      setValue('productPrice', product.price);
-      setValue('productQuantity', product.quantity);
-      setValue('productCategory', product.categoryId);
-    } 
-  }, [product]);
+    if (productReducer.product) {
+      setValue('productName', productReducer.product.name);
+      setValue('productImage', productReducer.product.image);
+      setValue('productDescription', productReducer.product.description);
+      setValue('productBrand', productReducer.product.brand);
+      setValue('productPrice', productReducer.product.price);
+      setValue('productQuantity', productReducer.product.quantity);
+      setValue('productCategory', productReducer.product.categoryId);
+    }
+  }, [productReducer.product]);
 
 
   const handleSubmitCreate = (data: FieldValues) => {
@@ -78,7 +86,7 @@ export default function ModalProductForm({ id, isOpen, handleClose }: ModalFormR
       description: data.productDescription,
       categoryId: data.productCategory
     }
-    dispatch(createProduct({dto}))
+    dispatch(createProduct({ dto }))
       .then(({ meta }) => {
         if (meta.requestStatus !== 'rejected') {
           reset();
@@ -98,7 +106,7 @@ export default function ModalProductForm({ id, isOpen, handleClose }: ModalFormR
       description: data.productDescription,
       categoryId: data.productCategory
     }
-    dispatch(updateProduct({productId, dto}))
+    dispatch(updateProduct({ productId, dto }))
       .then(({ meta }) => {
         if (meta.requestStatus !== 'rejected') {
           reset();
@@ -228,8 +236,8 @@ export default function ModalProductForm({ id, isOpen, handleClose }: ModalFormR
                     value={value ? value : ''}
                     onChange={onChange}
                   >
-                    {categories.map((category) => (
-                      <MenuItem 
+                    {categoriesReducer.categories.map((category) => (
+                      <MenuItem
                         key={category.id}
                         value={category.id}
                       >
@@ -247,6 +255,8 @@ export default function ModalProductForm({ id, isOpen, handleClose }: ModalFormR
             />
           </FormControl>
         </Box>
+        { productReducer.errors.products && <ErrorAlert title="Error" text={productReducer.errors.products}/> }
+        { categoriesReducer.errors.categories && <ErrorAlert title="Error" text={categoriesReducer.errors.categories}/> }
       </ModalFormLayout>
     </>
   );

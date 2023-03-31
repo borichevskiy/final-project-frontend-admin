@@ -17,14 +17,14 @@ repository.interceptors.request.use(
 
         let curTime = Number(new Date().getTime()) / 1000;
         let expTime = Number(Cookies.get('expired_at')) / 1000;
-        console.log(expTime - curTime)
 
         if ((expTime - curTime) <= 0) {
             Cookies.remove('access_token');
             Cookies.remove('expired_at');
-            window.location.replace("/app/auth/sign-in");
+            window.location.replace("/app");
             return config;
         }
+
         if ((expTime - curTime) < 600 && (expTime - curTime) > 0) {
             try {
                 Cookies.remove('access_token');
@@ -37,7 +37,7 @@ repository.interceptors.request.use(
                 Cookies.set('access_token', response.data.access_token);
                 Cookies.set('expired_at', response.data.expired_at);
             } catch (e) {
-                console.log("User unauthorized!");
+                window.location.replace("/app");
             }
         }
 

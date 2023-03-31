@@ -1,5 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+
+//============== Repositories ===================
 import repository from "../../../repository";
+
+//============== Types ===================
 import { CategoryDto } from "../types/category-dto.type";
 import { CreateCategoryDto } from "../types/create-category-dto.type";
 

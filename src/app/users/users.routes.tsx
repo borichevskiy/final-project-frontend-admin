@@ -10,11 +10,7 @@ const Suspended: FC<PropsWithChildren & { element: any }> = ({ element: Element 
 };
 
 // ======= pages ======= //
-// const AuthPage = React.lazy(() => import("app/auth"));
-// const ProductPage = React.lazy(() => import("app/products"));
-// const MainPage = React.lazy(() => import("app/main/main-view.page"));
 const UserPage = React.lazy(() => import("app/users"));
-
 const MainPage = React.lazy(() => import("app/users/admin-user.page"));
 
 const UsersRoutes: FC = () => {
@@ -22,7 +18,6 @@ const UsersRoutes: FC = () => {
     <Routes>
       <Route path={"/admin/users/*"} element={<Suspended element={UserPage} />} />
       <Route path={"/"} element={<Suspended element={MainPage} />} />
-
 
       {/* DEFAULT */}
       <Route path='*' element={<Navigate to="/" />} />

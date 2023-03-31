@@ -1,4 +1,4 @@
-import { IdDto } from "../../types/id-dto.type";
+import { IdDto } from "../../../types/id-dto.type";
 import { UserPermissions } from "../enums/user-permissions.enum";
 import { UserRoleTypes } from "../enums/user-role-types.enum";
 

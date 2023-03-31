@@ -1,4 +1,4 @@
-import UserSettingsForm from "./user-settings-form";
+import UserSettingsForm from "./admin-settings-form";
 
 export default function ContentUserSettingsPage() {
     return (

@@ -1,8 +1,11 @@
 import { Button, Dialog, DialogContent, DialogTitle, Grid } from "@mui/material";
-import { ConfirmWindowProps } from "app/types/props.type";
+
+//============== Types ===================
+import { ConfirmWindowProps } from "types/props.type";
+import ErrorAlert from "./error-alert.component";
 
 export default function ConfirmDeletionWindow(
-  { handleConfirm, isOpen, handleClose }: ConfirmWindowProps) {
+  { handleConfirm, isOpen, handleClose, error }: ConfirmWindowProps) {
   return (
     <Grid container sx={{ marginBottom: 4 }}>
       <Dialog open={isOpen} onClose={handleClose}>
@@ -13,8 +16,9 @@ export default function ConfirmDeletionWindow(
             <Button onClick={handleConfirm}>DELETE</Button>
             <Button onClick={handleClose}>Cancel</Button>
           </Grid>
+          { error && <ErrorAlert title="Error" text={error}/> }   
         </DialogContent>
-      </Dialog>
+      </Dialog> 
     </Grid>
   )
 }

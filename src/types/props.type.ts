@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { RowsCategories } from "app/categories/types/categories-rows.type";
-import { RoleDto } from "../roles/types/role-dto.type";
+import { RoleDto } from "../app/roles/types/role-dto.type";
 import { UserDto } from "app/users/types/users-dto.type";
 import { FieldValues, UseFormHandleSubmit } from "react-hook-form";
 
@@ -10,8 +10,8 @@ export type AppTableProps = {
   rows: Array<UserDto> | Array<RowsCategories> | Array<RoleDto>;
   columns: Array<Column>;
   isUserTable: boolean;
-  handleOpenFormEdit: (id : string | number) => void;
-  handleOpenConfirmDelete: (id : string | number) => void;
+  handleOpenFormEdit: (id: string | number) => void;
+  handleOpenConfirmDelete: (id: string | number) => void;
 }
 
 export type Column = {
@@ -27,7 +27,7 @@ export type ModalFormLayoutProps = {
   children: ReactNode;
   formTitle: string;
   buttonTitle: string;
-  handleSubmit:  React.FormEventHandler<HTMLFormElement>;
+  handleSubmit: React.FormEventHandler<HTMLFormElement>;
   isOpen: boolean;
   handleClose: () => void;
 };
@@ -43,6 +43,7 @@ export type ConfirmWindowProps = {
   handleConfirm: () => void;
   isOpen: boolean;
   handleClose: () => void;
+  error: string | null;
 }
 
 // =============== Modal role form ===============

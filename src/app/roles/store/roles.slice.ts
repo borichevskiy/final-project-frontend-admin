@@ -1,6 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+
+//============== Types ===================
 import { RoleState } from "../types/role-state.type";
-import { addRole, getRoles, getRoleById, updateRole } from "./roles.actions";
+
+//============== Actions ===================
+import { addRole, getRoles, getRoleById, updateRole, deleteRole } from "./roles.actions";
 
 const initialState: RoleState = {
   roles: [],
@@ -32,7 +36,7 @@ const rolesSlice = createSlice({
       })
       .addCase(getRoles.rejected, (state, action: any & { payload: any }) => {
         state.pending.roles = false;
-        state.errors.roles = action.payload.message;
+        state.errors.roles = action.payload;
       })
       // ================ Get role by id ===============
       .addCase(getRoleById.pending, (state) => {
@@ -45,7 +49,7 @@ const rolesSlice = createSlice({
       })
       .addCase(getRoleById.rejected, (state, action: any & { payload: any }) => {
         state.pending.role = false;
-        state.errors.role = action.payload.message;
+        state.errors.role = action.payload;
       })
       // ================ Add roles ===============
       .addCase(addRole.pending, (state) => {
@@ -58,7 +62,7 @@ const rolesSlice = createSlice({
       })
       .addCase(addRole.rejected, (state, action: any & { payload: any }) => {
         state.pending.role = false;
-        state.errors.role = action.payload.message;
+        state.errors.role = action.payload;
       })
       // ================ Update role ===============
       .addCase(updateRole.pending, (state) => {
@@ -71,7 +75,20 @@ const rolesSlice = createSlice({
       })
       .addCase(updateRole.rejected, (state, action: any & { payload: any }) => {
         state.pending.role = false;
-        state.errors.role = action.payload.message;
+        state.errors.role = action.payload;
+      })
+      // ================ Delete role ===============
+      .addCase(deleteRole.pending, (state) => {
+        state.pending.role = true;
+        state.errors.role = null;
+      })
+      .addCase(deleteRole.fulfilled, (state, { payload }) => {
+        state.pending.role = false;
+        state.role = payload;
+      })
+      .addCase(deleteRole.rejected, (state, action: any & { payload: any }) => {
+        state.pending.role = false;
+        state.errors.role = action.payload;
       })
   },
 });

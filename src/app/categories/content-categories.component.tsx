@@ -1,6 +1,16 @@
-import * as React from "react";
 import { useEffect, useState } from "react";
-import { columnsCategories } from "../constants/constants";
+
+//============== Types ===================
+
+//============== Componets ===================
+import AppTable from "components/app-table.component";
+import OpenModalFormButton from "components/modal-open-form-button.component";
+import ModalCategoryForm from "./modal-category-form.component";
+import ConfirmDeletionWindow from "components/modal-form-confirm-delete.component";
+import Loading from "components/loading.component";
+import ErrorAlert from "components/error-alert.component";
+
+//============== Redux ===================
 import { useAppDispatch } from "../../hooks/redux";
 import {
   createCategory,
@@ -8,14 +18,15 @@ import {
   getCategories
 } from "./store/categories.actions";
 import { useCategorySelector } from "./store/categories.selectors";
-import AppTable from "components/app-table.component";
-import OpenModalFormButton from "components/modal-open-form-button.component";
-import ModalCategoryForm from "./modal-category-form.component";
-import ConfirmDeletionWindow from "components/modal-form-confirm-delete.component";
+
+//============== Constants ===================
+import { columnsCategories } from "../constants/constants";
+import AppTextStatus from "components/app-text-status.component";
+
 
 export default function ContentAdminCategoriesPage() {
   const dispatch = useAppDispatch();
-  const { categories } = useCategorySelector();
+  const { categories, errors, pending } = useCategorySelector();
 
   const [openForm, setOpenForm] = useState(false);
   const [openConfirmWindow, setOpenConfirmWindow] = useState(false);
@@ -57,24 +68,43 @@ export default function ContentAdminCategoriesPage() {
 
   return (
     <>
-      <OpenModalFormButton handleClickOpen={handleOpenForm} buttonTitle="CREATE CATEGORYE"/>
-      <AppTable
-        rows={categories}
-        columns={columnsCategories}
-        isUserTable={false}
-        handleOpenFormEdit={handleOpenForm}
-        handleOpenConfirmDelete={handleOpenConfirmWindow}
-      />
-      <ConfirmDeletionWindow 
-        handleConfirm={handleConfirm} 
-        isOpen={openConfirmWindow} 
-        handleClose={handleCloseConfirmWindow}
-      />
-      <ModalCategoryForm 
-        id={id}  
-        isOpen={openForm} 
-        handleClose={handleCloseForm}
-      />
+    {
+      pending.categories
+      ?
+        <Loading/>
+      :
+        !errors.categories &&
+        <>
+          <OpenModalFormButton handleClickOpen={handleOpenForm} buttonTitle="CREATE CATEGORYE"/>
+          {
+            categories.length !== 0 
+            ?
+              <>
+                <AppTable
+                  rows={categories}
+                  columns={columnsCategories}
+                  isUserTable={false}
+                  handleOpenFormEdit={handleOpenForm}
+                  handleOpenConfirmDelete={handleOpenConfirmWindow}
+                />
+                <ConfirmDeletionWindow 
+                  handleConfirm={handleConfirm} 
+                  isOpen={openConfirmWindow} 
+                  handleClose={handleCloseConfirmWindow}
+                  error={errors?.category}
+                />
+              </>
+            :
+              !errors.categories && <AppTextStatus text="Create first category!"/>
+          }
+          <ModalCategoryForm 
+            id={id}  
+            isOpen={openForm} 
+            handleClose={handleCloseForm}
+          />
+        </>
+    }
+    { errors.categories && <ErrorAlert title="Error" text={errors.categories}/> }
     </>
   );
 }

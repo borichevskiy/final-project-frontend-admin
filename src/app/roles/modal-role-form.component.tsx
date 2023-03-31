@@ -1,13 +1,22 @@
+import { useEffect, useState } from "react";
+import { Box, Chip, FormControl, FormHelperText, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, TextField } from "@mui/material";
+
+//============== Redux ===================
 import { useAppDispatch } from "../../hooks/redux";
 import { addRole, getRoleById, updateRole } from "./store/roles.actions";
 import { useRoleSelector } from "./store/roles.selectors";
-import { useEffect, useState } from "react";
-import { Box, Chip, FormControl, FormHelperText, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, TextField } from "@mui/material";
+
+//============== Types ===================
 import { CreateRoleDto } from "./types/create-role-dto.type";
 import { UserRoleTypes } from "./enums/user-role-types.enum";
 import { UserPermissions } from "./enums/user-permissions.enum";
+import { ModalFormRoleProps } from "types/props.type";
+
+//============== Components ===================
 import ModalFormLayout from "components/form-modal-layout.component";
-import { ModalFormRoleProps } from "app/types/props.type";
+import ErrorAlert from "components/error-alert.component";
+
+//============== Yup ===================
 import { Controller, FieldValues, useForm } from "react-hook-form";
 import { schemaRole } from "./roles-schema.yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -16,7 +25,7 @@ export default function ModalRoleForm({ id, isOpen, handleClose }: ModalFormRole
   const dispatch = useAppDispatch();
   const [formTitle, setFormTitle] = useState<string>('CREATE ROLE');
   const [buttonTitle, setButtonTitle] = useState<string>('CREATE');
-  const { role } = useRoleSelector();
+  const roleReducer = useRoleSelector();
 
   const {
     handleSubmit,
@@ -56,12 +65,12 @@ export default function ModalRoleForm({ id, isOpen, handleClose }: ModalFormRole
   }, [id]);
 
   useEffect(() => {
-    if (role) {
-      setValue('roleName', role.name);
-      setValue('roleType', role.type);
-      setValue('rolePermissions', role.permissions);
+    if (roleReducer.role) {
+      setValue('roleName', roleReducer.role.name);
+      setValue('roleType', roleReducer.role.type);
+      setValue('rolePermissions', roleReducer.role.permissions);
     }
-  }, [role]);
+  }, [roleReducer.role]);
 
   const handleSubmitCreate = (data: FieldValues) => {
     const dto: CreateRoleDto = {
@@ -138,6 +147,7 @@ export default function ModalRoleForm({ id, isOpen, handleClose }: ModalFormRole
                   onChange={onChange}
                 >
                   {Object.values(UserRoleTypes).map((roleType) => (
+                    roleType !== UserRoleTypes.SuperAdmin &&
                     <MenuItem
                       key={roleType}
                       value={roleType}
@@ -206,6 +216,7 @@ export default function ModalRoleForm({ id, isOpen, handleClose }: ModalFormRole
           />
         </FormControl>
       </Box>
+      { roleReducer.errors.role && <ErrorAlert title="Error" text={roleReducer.errors.role}/> } 
     </ModalFormLayout>
   );
 }

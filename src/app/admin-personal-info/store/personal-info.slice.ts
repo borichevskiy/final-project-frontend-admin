@@ -19,6 +19,7 @@ const userInfoSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
+            // ============== Get admin info ==============
             .addCase(getUserInfo.pending, (state) => {
                 state.pending.userInfo = true;
                 state.errors.userInfo = null;
@@ -29,8 +30,9 @@ const userInfoSlice = createSlice({
             })
             .addCase(getUserInfo.rejected, (state, action: any & { payload: any }) => {
                 state.pending.userInfo = false;
-                state.errors.userInfo = action.payload.message;
+                state.errors.userInfo = action.payload;
             })
+            // ============== Update admin info ==============
             .addCase(updateUserInfo.pending, (state) => {
                 state.pending.userInfo = true;
                 state.errors.userInfo = null;
@@ -41,7 +43,7 @@ const userInfoSlice = createSlice({
             })
             .addCase(updateUserInfo.rejected, (state, action: any & { payload: any }) => {
                 state.pending.userInfo = false;
-                state.errors.userInfo = action.payload.message;
+                state.errors.userInfo = action.payload;
             })
     }
 });

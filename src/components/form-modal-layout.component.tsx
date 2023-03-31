@@ -4,7 +4,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Box, Grid } from "@mui/material";
 
-import { ModalFormLayoutProps } from "../app/types/props.type";
+import { ModalFormLayoutProps } from "../types/props.type";
 
 export default function ModalFormLayout(
   { children, formTitle, buttonTitle, handleSubmit, isOpen, handleClose }: ModalFormLayoutProps) {

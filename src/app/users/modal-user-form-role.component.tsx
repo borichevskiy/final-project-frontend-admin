@@ -1,23 +1,34 @@
-import { useAppDispatch } from "../../hooks/redux";
-import { useRoleSelector } from "app/roles/store/roles.selectors";
 import { useEffect, useState } from "react";
 import { Box, FormHelperText, Grid, MenuItem, Select, SelectChangeEvent, Typography } from "@mui/material";
-import ModalFormLayout from "components/form-modal-layout.component";
-import { ModalFormRoleProps } from "app/types/props.type";
+
+//============== Redux ===================
+import { useRoleSelector } from "app/roles/store/roles.selectors";
+import { useAppDispatch } from "../../hooks/redux";
 import { getRoles } from "app/roles/store/roles.actions";
 import { assignRoleOnUser, getUserById } from "./store/users.actions";
 import { useUserSelector } from "./store/users.selectors";
+
+//============== Types ===================
+import { ModalFormRoleProps } from "types/props.type";
 import { UserAssignRoleDto } from "./types/user-assign-role-dto.type";
+
+//============== Enums ===================
+import { UserRoleTypes } from "app/roles/enums/user-role-types.enum";
+
+//============== Yup ===================
 import { Controller, FieldValues, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaUserRole } from "./users-schemas.yap";
 
+//============== Components ===================
+import ModalFormLayout from "components/form-modal-layout.component";
+import ErrorAlert from "components/error-alert.component";
 
 export default function ModalUserForm({ id, isOpen, handleClose }: ModalFormRoleProps) {
   const dispatch = useAppDispatch();
 
   const { roles } = useRoleSelector();
-  const { user } = useUserSelector();
+  const userReducer = useUserSelector();
 
   const [userFullName, setUserFullName] = useState<string>('user name');
   const [userEmail, setUserEmail] = useState<string>('user email');
@@ -42,12 +53,12 @@ export default function ModalUserForm({ id, isOpen, handleClose }: ModalFormRole
   }, [id]);
 
   useEffect(() => {
-    if (user) {
-      setUserFullName(user.fullName);
-      setUserEmail(user.email);
-      setValue('role', user.roleName)
+    if (userReducer.user) {
+      setUserFullName(userReducer.user.fullName);
+      setUserEmail(userReducer.user.email);
+      setValue('role', userReducer.user.roleName)
     }
-  }, [user]);
+  }, [userReducer.user]);
 
   const handleSubmitUpdate = (data: FieldValues) => {
     const role = roles.find((role) => role.name === data.role)
@@ -96,12 +107,13 @@ export default function ModalUserForm({ id, isOpen, handleClose }: ModalFormRole
                 onChange={onChange}
               >
                 {roles.map((role) => (
-                  <MenuItem
-                    key={role.id}
-                    value={role.name}
-                  >
-                    {role.name}
-                  </MenuItem>
+                  role.type !== UserRoleTypes.SuperAdmin &&
+                    <MenuItem
+                      key={role.id}
+                      value={role.name}
+                    >
+                      {role.name}
+                    </MenuItem>
                 ))}
               </Select>
               <FormHelperText
@@ -113,6 +125,7 @@ export default function ModalUserForm({ id, isOpen, handleClose }: ModalFormRole
           )}
         />
       </Box>
+      { userReducer.errors.user && <ErrorAlert title="Error" text={userReducer.errors.user}/> }
     </ModalFormLayout>
   );
 }

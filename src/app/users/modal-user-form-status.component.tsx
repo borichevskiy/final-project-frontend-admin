@@ -1,18 +1,28 @@
-import { useAppDispatch } from "../../hooks/redux";
 import { useEffect, useState } from "react";
 import { FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, Typography } from "@mui/material";
-import ModalFormLayout from "components/form-modal-layout.component";
-import { ModalFormRoleProps } from "app/types/props.type";
+
+//============== Redux ===================
+import { useAppDispatch } from "../../hooks/redux";
 import { getUserById, updateUserStatus } from "./store/users.actions";
 import { useUserSelector } from "./store/users.selectors";
+
+//============== Types ===================
+import { ModalFormRoleProps } from "types/props.type";
 import { UpdateUserStatusDto } from "./types/user-status-dto.type";
+
+//============== Yup ===================
 import { Controller, FieldValues, useForm } from "react-hook-form";
 import { schemaUserSatus } from "./users-schemas.yap";
 import { yupResolver } from "@hookform/resolvers/yup";
 
+//============== Components ===================
+import ModalFormLayout from "components/form-modal-layout.component";
+import ErrorAlert from "components/error-alert.component";
+
 export default function ModalStatusForm({ id, isOpen, handleClose }: ModalFormRoleProps) {
   const dispatch = useAppDispatch();
-  const { user } = useUserSelector();
+  const { user, errors } = useUserSelector();
+  
   const [userEmail, setUserEmail] = useState<string>('user email');
 
   const {
@@ -84,6 +94,7 @@ export default function ModalStatusForm({ id, isOpen, handleClose }: ModalFormRo
           }
         />
       </FormControl>
+      { errors.user && <ErrorAlert title="Error" text={errors.user}/> }
     </ModalFormLayout>
   );
 }

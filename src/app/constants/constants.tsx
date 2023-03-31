@@ -6,7 +6,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import VpnKeyOffIcon from '@mui/icons-material/VpnKeyOff';
 
 
-import { Column, NavParams } from "../types/props.type";
+import { Column, NavParams } from "../../types/props.type";
 
 export const nav: NavParams[] = [
   {
@@ -35,7 +35,7 @@ export const nav: NavParams[] = [
     navigatePath: "/app/admin/personal-info",
   },
   {
-    icon: <VpnKeyOffIcon/>,
+    icon: <VpnKeyOffIcon />,
     text: "Settings",
     navigatePath: "/app/admin/settings",
   },
