@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
+
+//============== Types ===================
 import { CategoryState } from "../types/category-state.type";
+
+//============== Actions ===================
 import {
   createCategory,
   deleteCategory,
@@ -27,6 +31,7 @@ const categoriesSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      //============== Get categories ===================
       .addCase(getCategories.pending, (state) => {
         state.pending.categories = true;
         state.errors.categories = null;
@@ -39,7 +44,7 @@ const categoriesSlice = createSlice({
         getCategories.rejected,
         (state, action: any & { payload: any }) => {
           state.pending.categories = false;
-          state.errors.categories = action.payload.message;
+          state.errors.categories = action.payload;
         }
       )
       // ================ Get by id ================
@@ -55,7 +60,7 @@ const categoriesSlice = createSlice({
         getCategoryById.rejected,
         (state, action: any & { payload: any }) => {
           state.pending.category = false;
-          state.errors.category = action.payload.message;
+          state.errors.category = action.payload;
         }
       )
       //================= Create ===================
@@ -71,7 +76,7 @@ const categoriesSlice = createSlice({
         createCategory.rejected,
         (state, action: any & { payload: any }) => {
           state.pending.category = false;
-          state.errors.category = action.payload.message;
+          state.errors.category = action.payload;
         }
       )
       //================= Update ====================
@@ -87,7 +92,7 @@ const categoriesSlice = createSlice({
         updateCategory.rejected,
         (state, action: any & { payload: any }) => {
           state.pending.category = false;
-          state.errors.category = action.payload.message;
+          state.errors.category = action.payload;
         }
       )
       // ================ Delete category ================
@@ -101,9 +106,8 @@ const categoriesSlice = createSlice({
       })
       .addCase(deleteCategory.rejected, (state, action: any & { payload: any }) => {
           state.pending.category = false;
-          state.errors.category = action.payload.message;
-        }
-      )
+          state.errors.category = action.payload;
+      })
   },
 });
 

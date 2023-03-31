@@ -43,6 +43,7 @@ export type ConfirmWindowProps = {
   handleConfirm: () => void;
   isOpen: boolean;
   handleClose: () => void;
+  error: string | null;
 }
 
 // =============== Modal role form ===============

@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { NavLink } from "react-router-dom";
 import {
   Box,
   Toolbar,
@@ -23,7 +23,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import LogoutIcon from '@mui/icons-material/Logout';
 
-import { Link } from "react-router-dom";
+//============== Types ===================
 import { LayoutProps } from "../types/props.type";
 import Grid from "@mui/material/Grid";
 
@@ -133,9 +133,9 @@ export default function Layout({ children, nav, title }: LayoutProps) {
             {title}
           </Typography>
           <Grid item sx={{ marginLeft: 'auto' }}>
-            <Link to="/app/auth/log-out" style={{ color: 'white' }}>
+            <NavLink to="/app/auth/log-out" style={{ color: 'white' }}>
               <LogoutIcon />
-            </Link>
+            </NavLink>
           </Grid>
         </Toolbar>
       </AppBar>
@@ -152,7 +152,7 @@ export default function Layout({ children, nav, title }: LayoutProps) {
         <Divider />
         <List>
           {nav.map((item) => (
-            <Link
+            <NavLink
               key={item.navigatePath}
               to={item.navigatePath}
               style={{ textDecoration: "none", color: "black" }}
@@ -184,7 +184,7 @@ export default function Layout({ children, nav, title }: LayoutProps) {
                   />
                 </ListItemButton>
               </ListItem>
-            </Link>
+            </NavLink>
           ))}
         </List>
         <Divider />
