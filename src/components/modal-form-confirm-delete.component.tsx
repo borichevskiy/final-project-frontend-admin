@@ -1,5 +1,5 @@
 import { Button, Dialog, DialogContent, DialogTitle, Grid } from "@mui/material";
-import { ConfirmWindowProps } from "app/types/props.type";
+import { ConfirmWindowProps } from "types/props.type";
 
 export default function ConfirmDeletionWindow(
   { handleConfirm, isOpen, handleClose }: ConfirmWindowProps) {

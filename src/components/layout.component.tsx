@@ -24,7 +24,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import LogoutIcon from '@mui/icons-material/Logout';
 
 import { Link } from "react-router-dom";
-import { LayoutProps } from "../app/types/props.type";
+import { LayoutProps } from "../types/props.type";
 import Grid from "@mui/material/Grid";
 
 const drawerWidth = 240;

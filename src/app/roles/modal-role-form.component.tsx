@@ -7,7 +7,7 @@ import { CreateRoleDto } from "./types/create-role-dto.type";
 import { UserRoleTypes } from "./enums/user-role-types.enum";
 import { UserPermissions } from "./enums/user-permissions.enum";
 import ModalFormLayout from "components/form-modal-layout.component";
-import { ModalFormRoleProps } from "app/types/props.type";
+import { ModalFormRoleProps } from "types/props.type";
 import { Controller, FieldValues, useForm } from "react-hook-form";
 import { schemaRole } from "./roles-schema.yup";
 import { yupResolver } from "@hookform/resolvers/yup";

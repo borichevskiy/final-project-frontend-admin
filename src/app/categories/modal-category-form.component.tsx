@@ -2,7 +2,7 @@ import { useAppDispatch } from "../../hooks/redux";
 import { useEffect, useState } from "react";
 import { TextField } from "@mui/material";
 import ModalFormLayout from "components/form-modal-layout.component";
-import { ModalFormRoleProps } from "app/types/props.type";
+import { ModalFormRoleProps } from "types/props.type";
 import {
   createCategory,
   getCategoryById,

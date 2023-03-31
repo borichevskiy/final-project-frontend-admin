@@ -2,7 +2,7 @@ import { useAppDispatch } from "../../hooks/redux";
 import { useEffect, useState } from "react";
 import { FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, Typography } from "@mui/material";
 import ModalFormLayout from "components/form-modal-layout.component";
-import { ModalFormRoleProps } from "app/types/props.type";
+import { ModalFormRoleProps } from "types/props.type";
 import { getUserById, updateUserStatus } from "./store/users.actions";
 import { useUserSelector } from "./store/users.selectors";
 import { UpdateUserStatusDto } from "./types/user-status-dto.type";

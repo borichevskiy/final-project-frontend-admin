@@ -3,7 +3,7 @@ import { useRoleSelector } from "app/roles/store/roles.selectors";
 import { useEffect, useState } from "react";
 import { Box, FormHelperText, Grid, MenuItem, Select, SelectChangeEvent, Typography } from "@mui/material";
 import ModalFormLayout from "components/form-modal-layout.component";
-import { ModalFormRoleProps } from "app/types/props.type";
+import { ModalFormRoleProps } from "types/props.type";
 import { getRoles } from "app/roles/store/roles.actions";
 import { assignRoleOnUser, getUserById } from "./store/users.actions";
 import { useUserSelector } from "./store/users.selectors";

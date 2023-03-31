@@ -5,10 +5,10 @@ import EditIcon from "@mui/icons-material/Edit";
 import BlockIcon from "@mui/icons-material/Block";
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import { AppTableProps, Column } from "app/types/props.type";
+import { AppTableProps, Column } from "types/props.type";
 
-export default function AppTable (
-  {columns, rows, isUserTable, handleOpenFormEdit, handleOpenConfirmDelete} : AppTableProps) {
+export default function AppTable(
+  { columns, rows, isUserTable, handleOpenFormEdit, handleOpenConfirmDelete }: AppTableProps) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -27,7 +27,7 @@ export default function AppTable (
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              {columns.map((column : Column) => (
+              {columns.map((column: Column) => (
                 <TableCell
                   align={"center"}
                   key={column.id}
@@ -36,24 +36,24 @@ export default function AppTable (
                   {column.label}
                 </TableCell>
               ))}
-              <TableCell/>
+              <TableCell />
             </TableRow>
           </TableHead>
 
           <TableBody>
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row : any) => {
+              .map((row: any) => {
                 return (
-                  <TableRow 
+                  <TableRow
                     key={row.id}
-                    hover 
-                    role="checkbox" 
+                    hover
+                    role="checkbox"
                     tabIndex={-1}
                   >
                     {columns.map((column) => {
-                      let cellValue : string = row[column.id].toString();
-                      if (!cellValue|| cellValue.length < 2)
+                      let cellValue: string = row[column.id].toString();
+                      if (!cellValue || cellValue.length < 2)
                         cellValue = '-';
                       if (Array.isArray(row[column.id]))
                         cellValue = row[column.id].join(', ');
@@ -67,28 +67,28 @@ export default function AppTable (
                     })}
 
                     <TableCell align={"right"}>
-                      <IconButton 
-                        onClick={() => handleOpenFormEdit(row.id)} 
-                        sx={{color: 'black', padding: 0}}
+                      <IconButton
+                        onClick={() => handleOpenFormEdit(row.id)}
+                        sx={{ color: 'black', padding: 0 }}
                       >
                         <EditIcon />
-                      </IconButton>                     
+                      </IconButton>
                       {
-                        isUserTable 
-                          ? 
-                            <IconButton 
-                              onClick={() => handleOpenConfirmDelete(row.id)}
-                              sx={{color: 'black', padding: 0}}
-                            >
-                              <BlockIcon /> 
-                            </IconButton>
+                        isUserTable
+                          ?
+                          <IconButton
+                            onClick={() => handleOpenConfirmDelete(row.id)}
+                            sx={{ color: 'black', padding: 0 }}
+                          >
+                            <BlockIcon />
+                          </IconButton>
                           :
-                            <IconButton 
-                              onClick={() => handleOpenConfirmDelete(row.id)} 
-                              sx={{color: 'black', padding: 0}}
-                            >
-                              <DeleteIcon/>
-                            </IconButton>                            
+                          <IconButton
+                            onClick={() => handleOpenConfirmDelete(row.id)}
+                            sx={{ color: 'black', padding: 0 }}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
                       }
                     </TableCell>
                   </TableRow>

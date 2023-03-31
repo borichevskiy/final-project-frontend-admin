@@ -1,4 +1,4 @@
-import { BaseState } from "app/types/base-state.type";
+import { BaseState } from "types/base-state.type";
 import { AuthDto } from "./auth-dto.type";
 
 export interface AuthState extends BaseState {

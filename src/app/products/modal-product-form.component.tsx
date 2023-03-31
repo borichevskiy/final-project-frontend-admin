@@ -2,7 +2,7 @@ import { useAppDispatch } from "../../hooks/redux";
 import { useEffect, useState } from "react";
 import { Box, FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import ModalFormLayout from "components/form-modal-layout.component";
-import { ModalFormRoleProps } from "app/types/props.type";
+import { ModalFormRoleProps } from "types/props.type";
 import { ProductsDto } from "./types/product-dto.type";
 import { createProduct, getProductById, updateProduct } from "./store/products.action";
 import { useProductSelector } from "./store/products.selectors";
@@ -64,7 +64,7 @@ export default function ModalProductForm({ id, isOpen, handleClose }: ModalFormR
       setValue('productPrice', product.price);
       setValue('productQuantity', product.quantity);
       setValue('productCategory', product.categoryId);
-    } 
+    }
   }, [product]);
 
 
@@ -78,7 +78,7 @@ export default function ModalProductForm({ id, isOpen, handleClose }: ModalFormR
       description: data.productDescription,
       categoryId: data.productCategory
     }
-    dispatch(createProduct({dto}))
+    dispatch(createProduct({ dto }))
       .then(({ meta }) => {
         if (meta.requestStatus !== 'rejected') {
           reset();
@@ -98,7 +98,7 @@ export default function ModalProductForm({ id, isOpen, handleClose }: ModalFormR
       description: data.productDescription,
       categoryId: data.productCategory
     }
-    dispatch(updateProduct({productId, dto}))
+    dispatch(updateProduct({ productId, dto }))
       .then(({ meta }) => {
         if (meta.requestStatus !== 'rejected') {
           reset();
@@ -229,7 +229,7 @@ export default function ModalProductForm({ id, isOpen, handleClose }: ModalFormR
                     onChange={onChange}
                   >
                     {categories.map((category) => (
-                      <MenuItem 
+                      <MenuItem
                         key={category.id}
                         value={category.id}
                       >

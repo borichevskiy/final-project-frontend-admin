@@ -1,4 +1,4 @@
-import { BaseState } from "app/types/base-state.type";
+import { BaseState } from "types/base-state.type";
 import { ProductsDto } from "./product-dto.type";
 
 export interface ProductsState extends BaseState {

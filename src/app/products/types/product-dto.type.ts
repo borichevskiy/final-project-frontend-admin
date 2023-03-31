@@ -1,4 +1,4 @@
-import { UUIDDto } from '../../types/uuid-dto.type';
+import { UUIDDto } from '../../../types/uuid-dto.type';
 
 export interface ProductsDto extends UUIDDto {
   name: string;
