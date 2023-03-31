@@ -1,7 +1,11 @@
 import { Alert, Box, Collapse, IconButton } from "@mui/material";
 import { useState } from "react";
-import { ErrorAlertProps } from "types/error-alert-props.type";
+
+// ============== Icons ==============
 import CloseIcon from '@mui/icons-material/Close';
+
+// ============== Types ==============
+import { ErrorAlertProps } from "types/error-alert-props.type";
 
 export default function ErrorAlert({title, text} : ErrorAlertProps) {
   const [open, setOpen] = useState(true);
@@ -20,7 +24,6 @@ export default function ErrorAlert({title, text} : ErrorAlertProps) {
                 setOpen(false);
               }}
             >
-              
               <CloseIcon fontSize="inherit" />
             </IconButton>
           }
