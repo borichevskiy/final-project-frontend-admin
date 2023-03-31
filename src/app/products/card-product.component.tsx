@@ -9,14 +9,8 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-// =========== App =======================
-import { ProductsDto } from "./types/product-dto.type";
-
-export type CardProductProps = {
-  product: ProductsDto,
-  handleOpenFormEdit: (id: string | number | undefined) => void,
-  handleOpenConfirmWindow: (id: string | number | undefined) => void
-}
+// =========== Types =======================
+import { CardProductProps } from "./types/card-product-props.type";
 
 export default function CardProduct({ product, handleOpenFormEdit, handleOpenConfirmWindow }: CardProductProps) {
 

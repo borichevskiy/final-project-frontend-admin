@@ -1,5 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+
+// ================ Repositories ===============
 import repository from "../../../repository";
+
+// ================ Types ===============
 import { ProductsDto } from "../types/product-dto.type";
 
 const headers = {

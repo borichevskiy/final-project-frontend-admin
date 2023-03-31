@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
+
+// =========== Types =======================
 import { ProductsState } from "../types/product-state.type";
+
+// =========== Actions =======================
 import { createProduct, deleteProduct, getProductById, getProducts, updateProduct } from "./products.action";
 
 const initialState: ProductsState = {
@@ -21,6 +25,7 @@ const productsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // ================ Get products ================
       .addCase(getProducts.pending, (state) => {
         state.pending.products = true;
         state.errors.products = null;
@@ -33,10 +38,10 @@ const productsSlice = createSlice({
         getProducts.rejected,
         (state, action: any & { payload: any }) => {
           state.pending.products = false;
-          state.errors.products = action.payload.messege;
+          state.errors.products = action.payload;
         }
       )
-      // ================ Get by id ================
+      // ================ Get product by id ================
       .addCase(getProductById.pending, (state) => {
         state.pending.product = true;
         state.errors.product = null;
@@ -49,7 +54,7 @@ const productsSlice = createSlice({
         getProductById.rejected,
         (state, action: any & { payload: any }) => {
           state.pending.product = false;
-          state.errors.product = action.payload.message;
+          state.errors.product = action.payload;
         }
       )
       //================= Create ===================
@@ -65,7 +70,7 @@ const productsSlice = createSlice({
         createProduct.rejected,
         (state, action: any & { payload: any }) => {
           state.pending.product = false;
-          state.errors.product = action.payload.message;
+          state.errors.product = action.payload;
         }
       )
       //================= Update ====================
@@ -81,10 +86,10 @@ const productsSlice = createSlice({
         updateProduct.rejected,
         (state, action: any & { payload: any }) => {
           state.pending.product = false;
-          state.errors.product = action.payload.message;
+          state.errors.product = action.payload;
         }
       )
-      // ================ Delete ================
+      // ================ Delete product ================
       .addCase(deleteProduct.pending, (state) => {
         state.pending.product = true;
         state.errors.product = null;
@@ -97,7 +102,7 @@ const productsSlice = createSlice({
         deleteProduct.rejected,
         (state, action: any & { payload: any }) => {
           state.pending.product = false;
-          state.errors.product = action.payload.message;
+          state.errors.product = action.payload;
         }
       );
   }
