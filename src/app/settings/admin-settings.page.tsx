@@ -1,5 +1,10 @@
+// ============ Components =========================
 import Layout from "../../components/layout.component";
-import ContentUserSettingsPage from "./content-user-settings.page";
+
+// ============ Pages =========================
+import ContentUserSettingsPage from "./content-admin-settings.page";
+
+// ============ Constants =========================
 import {nav} from "../constants/constants";
 
 export default function UserSettingsPage () {

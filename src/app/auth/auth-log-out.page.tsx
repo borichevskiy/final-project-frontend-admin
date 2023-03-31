@@ -10,13 +10,13 @@ export default function AuthLogOutPage() {
   const {token} = useAuthSelector();
 
   useEffect(() => {
-    dispatch(logOutUser());
+    dispatch(logOutUser())
+      .then(({ meta }) => {
+        if (meta.requestStatus !== "rejected") {
+          navigate('/', { replace: true });
+        }
+      });
   }, [])
-
-  useEffect(() => {
-    if (token === null)
-      navigate('/', { replace: true });
-  }, [token])
 
   return(<></>);
 }

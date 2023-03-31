@@ -15,7 +15,7 @@ const PersonalInfo = React.lazy(() => import("app/admin-personal-info"));
 const RolesPage = React.lazy(() => import("app/roles"));
 const CategoriesPage = React.lazy(() => import("app/categories"));
 const UserPage = React.lazy(() => import("app/users/admin-user.page"));
-const SettingsPage = React.lazy(() => import('app/settings/user-settings.page'));
+const SettingsPage = React.lazy(() => import('app/settings/admin-settings.page'));
 
 const AdminRoutes: FC = () => {
   return (
