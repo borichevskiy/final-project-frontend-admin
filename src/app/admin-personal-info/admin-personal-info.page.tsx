@@ -1,6 +1,10 @@
+// ============== Components ==============
 import Layout from "../../components/layout.component";
+
+// ============== Redux ==============
 import { nav } from "../constants/constants";
-import ContentSettingsAdminPage from "./personal-info-form.component";
+
+// ============== Personal info ==============
 import ContentAdminPersonalInfo from "./content-admin-personal-info";
 
 export default function AdminPersonalInfoPage() {

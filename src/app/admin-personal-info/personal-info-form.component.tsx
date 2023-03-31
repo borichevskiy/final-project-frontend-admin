@@ -1,100 +1,115 @@
-import React, {useEffect, useState} from "react";
 import {
-    Grid,
-    CssBaseline,
-    Paper,
-    Box,
-    Typography,
-    TextField,
-    FormControlLabel,
-    Checkbox,
-    Button,
-    Link
-} from "@mui/material";
-import {useAppDispatch} from "../../hooks/redux";
-import {getUserInfo, updateUserInfo} from "./store/personal-info.actions";
-import { Controller, FieldValues, useForm } from "react-hook-form";
-import { UpdateAdminInfoDtoType } from "./types/update-admin-info-dto.type";
-import { schemaPersonalInfo } from "./personal-info-schema.yap";
-import { yupResolver } from "@hookform/resolvers/yup";
+  Box,
+  Button,
+  CssBaseline,
+  Grid,
+  Paper,
+  TextField,
+  Typography,
+  Link,
+  FormControlLabel, Checkbox
+} from '@mui/material';
+import { useEffect, useState } from "react";
 
-const PersonalInfoForm = () => {
-    const dispatch = useAppDispatch();
-    const [disabled, setDisabled] = useState(true);
+// ============== Redux ==============
+import { useAppDispatch } from "../../hooks/redux";
+import { getUserInfo, updateUserInfo } from "./store/personal-info.actions";
+import { useUserInfoSelector } from './store/personal-info.selectors';
 
-    const {
-      handleSubmit,
-      control,
-      formState: { errors },
-      setValue
-    } = useForm({
-      mode: 'all', 
-      resolver: yupResolver(schemaPersonalInfo),
-      defaultValues: {firstname: '', lastname: '', phone: '', address: ''}
-    });
+// ============== Yup ==============
+import { Controller, FieldValues, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { schemaPersonalInfo } from './personal-info-schema.yap';
 
-    useEffect(() => {
-      dispatch(getUserInfo())
-        .then ((data) => {
-          setValue('firstname', data.payload.firstName);
-          setValue('lastname', data.payload.lastName);
-          setValue('phone', data.payload.phone);
-          setValue('address', data.payload.address);
+// ============== Types ==============
+import { UpdateAdminInfoDtoType } from './types/update-admin-info-dto.type';
+
+// ============== Componets ==============
+import ErrorAlert from 'components/error-alert.component';
+import Loading from 'components/loading.component';
+
+const UserInfoForm = () => {
+  const dispatch = useAppDispatch();
+  const [disabled, setDisabled] = useState(true);
+
+  const userInfo = useUserInfoSelector();
+
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+    setValue
+  } = useForm({
+    mode: 'all',
+    resolver: yupResolver(schemaPersonalInfo),
+    defaultValues: { firstname: '', lastname: '', phone: '', address: '' }
+  });
+
+  useEffect(() => {
+    dispatch(getUserInfo())
+      .then((data) => {
+        setValue('firstname', data.payload.firstName);
+        setValue('lastname', data.payload.lastName);
+        setValue('phone', data.payload.phone);
+        setValue('address', data.payload.address);
       })
-    }, [dispatch])
+  }, [dispatch])
 
-    const handleSubmitForm = (data: FieldValues) => {
-      const dto: UpdateAdminInfoDtoType = {
-        firstName: data.firstname, 
-        lastName: data.lastname, 
-        phone: data.phone, 
-        address: data.address
-      };
+  const handleSubmitForm = (data: FieldValues) => {
+    const dto: UpdateAdminInfoDtoType = {
+      firstName: data.firstname,
+      lastName: data.lastname,
+      phone: data.phone,
+      address: data.address
+    };
 
-      dispatch(updateUserInfo({dto}))
-        .then(({meta}) => {
-          if (meta.requestStatus !== 'rejected') {
-            setDisabled(true);
-          }
-        })
-    }
-
+    dispatch(updateUserInfo({ dto }))
+      .then(({ meta }) => {
+        if (meta.requestStatus !== 'rejected') {
+          setDisabled(true);
+        }
+      })
+  }
 
   return (
-      <Grid container sx={{justifyContent: 'center'}}>
-        <CssBaseline />
-        <Grid
-          item
-          xs={12}
-          sm={8}
-          md={5}
-          component={Paper}
-          elevation={6}
-          square
-        >
-          <Box
-            sx={{
-              my: 8,
-              mx: 4,
-              display: 'flex',
-              flexDirection: 'column'
-            }}
+    <Grid container sx={{ justifyContent: 'center' }}>
+      <CssBaseline />
+      {userInfo.pending.userInfo 
+        ? 
+          <Loading/> 
+        : 
+          <Grid
+            item
+            xs={12}
+            sm={8}
+            md={5}
+            component={Paper}
+            elevation={6}
+            square
           >
-            <Typography component="h1" variant="h5" sx={{textAlign: 'center'}}>
+            <Box
+              sx={{
+                my: 8,
+                mx: 4,
+                display: 'flex',
+                flexDirection: 'column'
+              }}
+            >
+              <Typography component="h1" variant="h5" sx={{ textAlign: 'center' }}>
                 Your personal information
-            </Typography>
+              </Typography>
               <Box
-                  component="form"
-                  noValidate
-                  onSubmit={handleSubmit(handleSubmitForm)}
-                  sx={{ mt: 1 }}
+                component="form"
+                noValidate
+                onSubmit={handleSubmit(handleSubmitForm)}
+                sx={{ mt: 1 }}
               >
                 <Controller
                   name="firstname"
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <TextField
-                      helperText={errors.firstname ? `${errors.firstname.message}`: ''}
+                      helperText={errors.firstname ? `${errors.firstname.message}` : ''}
                       margin="normal"
                       fullWidth
                       id="firstname"
@@ -110,7 +125,7 @@ const PersonalInfoForm = () => {
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <TextField
-                      helperText={errors.lastname ? `${errors.lastname.message}`: ''}
+                      helperText={errors.lastname ? `${errors.lastname.message}` : ''}
                       margin="normal"
                       fullWidth
                       id="lastname"
@@ -126,7 +141,7 @@ const PersonalInfoForm = () => {
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <TextField
-                      helperText={errors.phone ? `${errors.phone.message}`: ''}
+                      helperText={errors.phone ? `${errors.phone.message}` : ''}
                       margin="normal"
                       fullWidth
                       id="phone"
@@ -142,7 +157,7 @@ const PersonalInfoForm = () => {
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <TextField
-                      helperText={errors.address ? `${errors.address.message}`: ''}
+                      helperText={errors.address ? `${errors.address.message}` : ''}
                       margin="normal"
                       fullWidth
                       id="address"
@@ -153,12 +168,12 @@ const PersonalInfoForm = () => {
                     />
                   )}
                 />
-                <FormControlLabel 
+                <FormControlLabel
                   control={
-                    <Checkbox checked={!disabled}/>
-                  } 
-                  label="Update info" 
-                  onChange={()=> setDisabled(!disabled)} 
+                    <Checkbox checked={!disabled} />
+                  }
+                  label="Update info"
+                  onChange={() => setDisabled(!disabled)}
                 />
                 <Button
                   type="submit"
@@ -168,32 +183,22 @@ const PersonalInfoForm = () => {
                     mt: 3,
                     mb: 2,
                     borderRadius: '20px',
-                    backgroundColor: '#6e5f55'
+                    backgroundColor: '#6e5f55',
+                    '&:hover': {
+                      backgroundColor: '#998374',
+                      color: 'white',
+                    }
                   }}
                 >
                   Save
                 </Button>
               </Box>
-              <Grid container>
-                <Grid
-                  container
-                  item
-                  sx={{marginTop: '30px'}}
-                >
-                  <Link
-                    href="/"
-                    style={{
-                      textDecoration: 'none',
-                      color: 'white'
-                    }}
-                  >
-                  </Link>
-                </Grid>
-              </Grid>
-           </Box>
-         </Grid>
-       </Grid>
+              { userInfo.errors.userInfo && <ErrorAlert title="Error" text={userInfo.errors.userInfo}/> }
+            </Box>
+          </Grid>
+      }
+    </Grid>
   )
 }
 
-export default PersonalInfoForm;
+export default UserInfoForm;
