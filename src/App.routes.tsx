@@ -4,7 +4,7 @@ import { Navigate, Routes, Route } from "react-router-dom";
 
 // ======= private route ======= //
 const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
-  return Cookies.get('access_token') ? (
+  return Cookies.get('access_token_admin') ? (
     <Suspense fallback={<div />}>
       <div><Element /></div>
     </Suspense>

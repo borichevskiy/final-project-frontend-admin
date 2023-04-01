@@ -39,7 +39,7 @@ export default function ModalCategoryForm({
   } = useForm({
     mode: "all",
     resolver: yupResolver(schemaCreateCategory),
-    defaultValues: { name: "", description: "" },
+    defaultValues: { name: "", description: "", image: "" },
   });
 
   const [formTitle, setFormTitle] = useState<string>("CREATE CATEGORY");
@@ -63,6 +63,7 @@ export default function ModalCategoryForm({
     if (categoryReducer.category) {
       setValue("name", categoryReducer.category.name);
       setValue("description", categoryReducer.category.description);
+      setValue("image", categoryReducer.category.image);
     }
   }, [categoryReducer.category]);
 
@@ -70,6 +71,7 @@ export default function ModalCategoryForm({
     const dto: CreateCategoryDto = {
       name: data.name,
       description: data.description,
+      image: data.image
     };
 
     dispatch(createCategory({ dto })).then(({ meta }) => {
@@ -84,6 +86,7 @@ export default function ModalCategoryForm({
     const dto: CreateCategoryDto = {
       name: data.name,
       description: data.description,
+      image: data.image
     };
 
     const categoryId = Number(id);
@@ -122,6 +125,22 @@ export default function ModalCategoryForm({
         )}
       />
       <Controller
+        name="image"
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <TextField
+            helperText={errors.image ? `${errors.image.message}` : ""}
+            margin="normal"
+            label="Category image"
+            name="categoryImage"
+            fullWidth
+            value={value ? value : ""}
+            onChange={onChange}
+            error={errors.image ? true : false}
+          />
+        )}
+      />
+      <Controller
         name="description"
         control={control}
         render={({ field: { onChange, value } }) => (
@@ -139,7 +158,7 @@ export default function ModalCategoryForm({
           />
         )}
       />
-      { categoryReducer.errors.category && <ErrorAlert title="Error" text={categoryReducer.errors.category}/> }   
+      {categoryReducer.errors.category && <ErrorAlert title="Error" text={categoryReducer.errors.category} />}
     </ModalFormLayout>
   );
 }

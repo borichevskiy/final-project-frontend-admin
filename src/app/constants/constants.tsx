@@ -60,4 +60,5 @@ export const columnsRole: Array<Column> = [
 export const columnsCategories: Array<Column> = [
   { id: "name", label: "Name", minWidth: 150 },
   { id: "description", label: "Description", minWidth: 100 },
+  { id: "image", label: "Image", minWidth: 100 },
 ];

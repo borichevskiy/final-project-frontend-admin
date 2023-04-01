@@ -11,5 +11,8 @@ export const schemaCreateCategory = yup
       .string()
       .max(100, "Max 100 symbols")
       .required("Description is a required field"),
+    image: yup
+      .string()
+      .required("Description is a required field"),
   })
   .required();
