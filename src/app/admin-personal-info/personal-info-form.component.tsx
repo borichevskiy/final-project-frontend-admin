@@ -47,13 +47,16 @@ const UserInfoForm = () => {
 
   useEffect(() => {
     dispatch(getUserInfo())
-      .then((data) => {
-        setValue('firstname', data.payload.firstName);
-        setValue('lastname', data.payload.lastName);
-        setValue('phone', data.payload.phone);
-        setValue('address', data.payload.address);
-      })
   }, [dispatch])
+
+  useEffect(() => {
+    if (userInfo.userInfo) {
+      setValue('firstname', userInfo.userInfo.firstName);
+      setValue('lastname', userInfo.userInfo.lastName);
+      setValue('phone', userInfo.userInfo.phone);
+      setValue('address', userInfo.userInfo.address);
+    }
+  }, [userInfo.userInfo])
 
   const handleSubmitForm = (data: FieldValues) => {
     const dto: UpdateAdminInfoDtoType = {
